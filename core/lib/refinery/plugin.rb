@@ -3,7 +3,7 @@ module Refinery
 
     attr_accessor :name, :class_name, :controller, :directory, :url,
                   :dashboard, :always_allow_access, :menu_match,
-                  :hide_from_menu, :pathname, :plugin_activity
+                  :hide_from_menu, :pathname, :plugin_activity, :options_template, :edit_page_template
 
     def self.register(&block)
       yield(plugin = self.new)
@@ -15,9 +15,17 @@ module Refinery
       plugin.always_allow_access ||= false
       plugin.dashboard ||= false
       plugin.class_name ||= plugin.name.camelize
+      plugin.edit_page_template ||= 'page_part_field'
 
-      # add the new plugin to the collection of registered plugins
-      ::Refinery::Plugins.registered << plugin
+
+      # add the new plugin to the collection of registered plugins unless it is a duplicate name
+      if plugin.name.in?Refinery::Plugins.registered.names
+        Rails.logger.error "Tried to register duplicate plugin: #{plugin.name}"
+      else
+        ::Refinery::Plugins.registered << plugin
+      end
+
+
     end
 
     # Returns the internationalized version of the title
