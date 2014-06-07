@@ -21,12 +21,14 @@ module Refinery
       end
 
       def hidden_sections
-        @sections.select {|section| section.hidden? }
+        @sections.select(&:hidden?)
       end
 
       def fetch_template_overrides
+        # each section is a sectionPresenter
         @sections.each do |section|
-          section.override_html = yield section.id if section.id.present?
+          # if there has been a content_for(:section), put the results into override_html
+          section.override_html = yield section.id
         end
       end
 
@@ -47,7 +49,8 @@ module Refinery
     private
 
       def sections_html(can_use_fallback)
-        @sections.map { |section| section.wrapped_html(can_use_fallback) }.compact.join("\n").html_safe
+        @sections.map { |section| section.wrapped_html(can_use_fallback) }
+                 .compact.join("\n").html_safe
       end
 
       def add_section_if_missing(options)
