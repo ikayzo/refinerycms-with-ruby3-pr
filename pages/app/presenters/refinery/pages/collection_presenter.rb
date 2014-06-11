@@ -22,22 +22,23 @@ module Refinery
         !@collection.nil?
       end
 
-      # def wrap_content_in_tag(content)
-        # content_tag(content_wrapper_tag.to_sym, content,  id: id)
-      # end
-
+      def wrap_content_in_tag(content)
+        content_tag(content_wrapper_tag.to_sym, content,  id: id)
+      end
 
 
       private
 
-     def content_html(can_use_fallback)
+      def content_html(can_use_fallback)
         override_html.present? ? override_html : collection_markup()
       end
 
       def collection_markup()
-        content_tag(collection_tag.to_sym, class: collection_class ) do
-          @collection.each.inject(ActiveSupport::SafeBuffer.new) do |buffer, item|
-            buffer << item_markup(item)
+        unless collection.blank?
+          content_tag(collection_tag.to_sym, class: collection_class ) do
+            @collection.each.inject(ActiveSupport::SafeBuffer.new) do |buffer, item|
+              buffer << item_markup(item)
+            end
           end
         end
       end
