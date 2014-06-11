@@ -27,7 +27,7 @@ module Refinery
         page.parts.each do |part|
 
           #  Some section titles have spaces!
-          section_name = part.title.gsub(/\s+/,'')
+          section_name = part.title.downcase.gsub(/\s+/,'')
           # find an instance variable or attribute named for this page part
           section_data = find_data(page, section_name)
 

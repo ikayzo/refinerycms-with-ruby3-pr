@@ -34,7 +34,7 @@ module Refinery
       end
 
       def collection_markup()
-        unless collection.blank?
+        unless @collection.blank?
           content_tag(collection_tag.to_sym, class: collection_class ) do
             @collection.each.inject(ActiveSupport::SafeBuffer.new) do |buffer, item|
               buffer << item_markup(item)
