@@ -59,15 +59,15 @@ module Refinery
             end
 
             it "should remove page cache directory" do
-              File.exists?(refinery_cache_path).should be_true
+              File.exists?(refinery_cache_path).should be true
               cache.expire!
-              File.exists?(refinery_cache_path).should be_false
+              File.exists?(refinery_cache_path).should be false
             end
 
             it "should remove home page cache file" do
-              File.exists?(refinery_cache_file).should be_true
+              File.exists?(refinery_cache_file).should be true
               cache.expire!
-              File.exists?(refinery_cache_file).should be_false
+              File.exists?(refinery_cache_file).should be false
             end
 
           end

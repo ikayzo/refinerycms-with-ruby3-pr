@@ -6,14 +6,13 @@ module Refinery
       # TODO do a better fallback_html
 
       attr_accessor :output_buffer
-      # config_accessor :id, :content_wrapper_id, :content_wrapper_tag, :collection_class, :collection_tag
       config_accessor :collection_tag, :collection_class, :item_tag, :item_class
 
       self.collection_tag = :ul
       self.item_tag = :li
 
       def initialize(page_part)
-        super(page_part[:options]) unless page_part[:options].nil?
+        super(page_part[:options]) unless page_part[:options].blank?
         @collection = page_part[:data]
         self.collection_class = page_part[:id]
       end

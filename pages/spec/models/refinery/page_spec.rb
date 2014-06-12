@@ -321,17 +321,17 @@ module Refinery
       context 'when using content_for?' do
 
         it 'return true when page part has content' do
-          page.content_for?(:body).should be_true
+          page.content_for?(:body).should be true
         end
 
         it 'return false when page part does not exist' do
           page.parts = []
-          page.content_for?(:body).should be_false
+          page.content_for?(:body).should be false
         end
 
         it 'return false when page part does not have any content' do
           page.parts.first.content = ''
-          page.content_for?(:body).should be_false
+          page.content_for?(:body).should be false
         end
 
       end
@@ -491,7 +491,7 @@ module Refinery
         it "returns true" do
           page.stub(:live?).and_return(true)
           page.stub(:show_in_menu?).and_return(true)
-          page.in_menu?.should be_true
+          page.in_menu?.should be true
         end
       end
 
@@ -499,11 +499,11 @@ module Refinery
         it "returns false" do
           page.stub(:live?).and_return(true)
           page.stub(:show_in_menu?).and_return(false)
-          page.in_menu?.should be_false
+          page.in_menu?.should be false
 
           page.stub(:live?).and_return(false)
           page.stub(:show_in_menu?).and_return(true)
-          page.in_menu?.should be_false
+          page.in_menu?.should be false
         end
       end
     end
@@ -512,14 +512,14 @@ module Refinery
       context "when in_menu? returns true" do
         it "returns false" do
           page.stub(:in_menu?).and_return(true)
-          page.not_in_menu?.should be_false
+          page.not_in_menu?.should be false
         end
       end
 
       context "when in_menu? returns false" do
         it "returns true" do
           page.stub(:in_menu?).and_return(false)
-          page.not_in_menu?.should be_true
+          page.not_in_menu?.should be true
         end
       end
     end
@@ -581,14 +581,14 @@ module Refinery
 
       context "when deletable is true and link_url, and menu_match is blank" do
         it "returns true" do
-          deletable_page.deletable?.should be_true
+          deletable_page.deletable?.should be true
         end
       end
 
       context "when deletable is false and link_url, and menu_match is blank" do
         it "returns false" do
           deletable_page.deletable = false
-          deletable_page.deletable?.should be_false
+          deletable_page.deletable?.should be false
         end
       end
 
@@ -596,10 +596,10 @@ module Refinery
         it "returns false" do
           deletable_page.deletable  = false
           deletable_page.link_url   = "text"
-          deletable_page.deletable?.should be_false
+          deletable_page.deletable?.should be false
 
           deletable_page.menu_match = "text"
-          deletable_page.deletable?.should be_false
+          deletable_page.deletable?.should be false
         end
       end
     end
