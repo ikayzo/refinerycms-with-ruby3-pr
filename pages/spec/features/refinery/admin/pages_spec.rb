@@ -18,6 +18,7 @@ end
 module Refinery
   module Admin
     describe "Pages" do
+      before { ::I18n.default_locale = Globalize.locale = :en }
       refinery_login_with :refinery_user
 
       context "when no pages" do
@@ -33,7 +34,7 @@ module Refinery
 
           within "#actions" do
             page.should have_content("Add new page")
-            page.should have_selector("a[href='/refinery/pages/new']")
+            page.should have_selector("a[href='/#{Refinery::Core.backend_route}/pages/new']")
           end
         end
 
@@ -43,7 +44,7 @@ module Refinery
 
             within "#actions" do
               page.should have_no_content("Reorder pages")
-              page.should have_no_selector("a[href='/refinery/pages']")
+              page.should have_no_selector("a[href='/#{Refinery::Core.backend_route}/pages']")
             end
           end
         end
@@ -56,7 +57,7 @@ module Refinery
 
             within "#actions" do
               page.should have_content("Reorder pages")
-              page.should have_selector("a[href='/refinery/pages']")
+              page.should have_selector("a[href='/#{Refinery::Core.backend_route}/pages']")
             end
           end
         end
@@ -127,9 +128,9 @@ module Refinery
 
           page.body.should =~ /Remove this page forever/
           page.body.should =~ /Edit this page/
-          page.body.should =~ %r{/refinery/pages/my-first-page/edit}
+          page.body.should =~ %r{/#{Refinery::Core.backend_route}/pages/my-first-page/edit}
           page.body.should =~ /Add a new child page/
-          page.body.should =~ %r{/refinery/pages/new\?parent_id=}
+          page.body.should =~ %r{/#{Refinery::Core.backend_route}/pages/new\?parent_id=}
           page.body.should =~ /View this page live/
           page.body.should =~ %r{href="/my-first-page"}
 
@@ -151,6 +152,7 @@ module Refinery
           page.body.should =~ %r{/pages/the-first-page}
         end
 
+<<<<<<< HEAD
         it "shows error if title is blank" do
           visit refinery.admin_pages_path
 
@@ -159,6 +161,19 @@ module Refinery
           click_button "Save"
 
           page.should have_content("Title can't be blank")
+=======
+        it "allows to easily create nested page" do
+          parent_page = Page.create! :title => "Rails 4"
+
+          visit refinery.admin_pages_path
+
+          find("a[href='#{refinery.new_admin_page_path(:parent_id => parent_page.id)}']").click
+
+          fill_in "Title", :with => "Parent page"
+          click_button "Save"
+
+          page.should have_content("'Parent page' was successfully added.")
+>>>>>>> Plugin-presenters
         end
       end
 
@@ -262,6 +277,18 @@ module Refinery
               ::I18n.t('switch_to_website', :scope => 'refinery.site_bar')
             )
           end
+
+          it 'will show pages with inherited templates', :js do
+            visit refinery.admin_pages_path
+
+            find('a[tooltip^=Edit]').click
+            fill_in 'Title', :with => 'Searchable'
+            click_link 'Advanced options'
+            select 'Searchable', :from => 'View template'
+            click_button 'Preview'
+
+            new_window_should_have_content('Form application/search_form')
+          end
         end
 
         context 'a brand new page' do
@@ -319,7 +346,7 @@ module Refinery
             visit refinery.admin_pages_path
 
             page.should have_no_content("Remove this page forever")
-            page.should have_no_selector("a[href='/refinery/pages/indestructible']")
+            page.should have_no_selector("a[href='/#{Refinery::Core.backend_route}/pages/indestructible']")
           end
         end
       end
@@ -333,7 +360,7 @@ module Refinery
           fill_in "Title", :with => "I was here first"
           click_button "Save"
 
-          Refinery::Page.last.url[:path].should == ["i-was-here-first--2"]
+          Refinery::Page.last.url[:path].first.should =~ %r{\Ai-was-here-first-.+?}
         end
       end
 
@@ -431,8 +458,8 @@ module Refinery
             fill_in "Title", :with => ru_page_title
             click_button "Save"
 
-            within "#page_#{Page.last.id}" do
-              click_link "Application_edit"
+            within "#page_#{Page.last.id} .actions" do
+              find("a[href^='/#{Refinery::Core.backend_route}/pages/#{ru_page_slug_encoded}/edit']").click
             end
             within "#switch_locale_picker" do
               click_link "En"
@@ -532,9 +559,9 @@ module Refinery
             end
           end
 
-          it "uses id instead of slug in admin" do
+          it "uses slug in admin" do
             within "#page_#{ru_page_id}" do
-              page.find_link('Edit this page')[:href].should include(ru_page_id.to_s)
+              page.find_link('Edit this page')[:href].should include(ru_page_slug_encoded)
             end
           end
 
@@ -567,7 +594,7 @@ module Refinery
               sub_page.parent.should == parent_page
               visit refinery.admin_pages_path
               within "#page_#{sub_page.id}" do
-                click_link "Application_edit"
+                click_link "Application edit"
               end
               fill_in "Title", :with => ru_page_title
               click_button "Save"
@@ -687,26 +714,6 @@ module Refinery
           page.should have_content("header class='regression'")
         end
       end
-
-      describe "with full page caching", :caching do
-        include CachingHelpers
-        let(:cached_page) { Page.create :title => 'Cached page' }
-
-        before do
-          cache_page(cached_page)
-        end
-
-        describe "creating updating or destroying a page" do
-          it "should clear the page cache" do
-            cached_page.should be_cached
-
-            visit refinery.admin_pages_path
-            click_link "Remove this page forever"
-
-            cached_page.should_not be_cached
-          end
-        end
-      end
     end
 
     describe "TranslatePages" do
@@ -762,7 +769,7 @@ module Refinery
 
       describe "Pages Link-to Dialog" do
         before do
-          Refinery::I18n.frontend_locales = [:en, :ru]
+          Refinery::I18n.stub(:frontend_locales).and_return [:en, :ru]
 
           # Create a page in both locales
           about_page = Globalize.with_locale(:en) do
@@ -777,7 +784,7 @@ module Refinery
 
         let(:about_page) do
           page = Refinery::Page.last
-          # we need page parts so that there's wymeditor
+          # we need page parts so that there's a visual editor
           Refinery::Pages.default_parts.each_with_index do |default_page_part, index|
             page.parts.create(:title => default_page_part, :body => nil, :position => index)
           end
@@ -789,14 +796,14 @@ module Refinery
             before { Refinery::Pages.absolute_page_links = false }
 
             it "shows Russian pages if we're editing the Russian locale" do
-              visit refinery.link_to_admin_pages_dialogs_path(:wymeditor => true, :switch_locale => :ru)
+              visit refinery.link_to_admin_pages_dialogs_path(:visual_editor => true, :switch_locale => :ru)
 
               page.should have_content("About Ru")
               page.should have_selector("a[href='/ru/about-ru']")
             end
 
             it "shows default to the default locale if no query string is added" do
-              visit refinery.link_to_admin_pages_dialogs_path(:wymeditor => true)
+              visit refinery.link_to_admin_pages_dialogs_path(:visual_editor => true)
 
               page.should have_content("About")
               page.should have_selector("a[href='/about']")
@@ -807,14 +814,14 @@ module Refinery
             before { Refinery::Pages.absolute_page_links = true }
 
             it "shows Russian pages if we're editing the Russian locale" do
-              visit refinery.link_to_admin_pages_dialogs_path(:wymeditor => true, :switch_locale => :ru)
+              visit refinery.link_to_admin_pages_dialogs_path(:visual_editor => true, :switch_locale => :ru)
 
               page.should have_content("About Ru")
               page.should have_selector("a[href='http://www.example.com/ru/about-ru']")
             end
 
             it "shows default to the default locale if no query string is added" do
-              visit refinery.link_to_admin_pages_dialogs_path(:wymeditor => true)
+              visit refinery.link_to_admin_pages_dialogs_path(:visual_editor => true)
 
               page.should have_content("About")
               page.should have_selector("a[href='http://www.example.com/about']")
@@ -822,10 +829,10 @@ module Refinery
           end
 
           # see https://github.com/refinery/refinerycms/pull/1583
+          # this test needs to be moved to refinerycms-wymeditor somehow
           context "when switching locales" do
             specify "dialog has correct links", :js do
               visit refinery.edit_admin_page_path(about_page)
-
 
               find("#page_part_body .wym_tools_link a").click
 

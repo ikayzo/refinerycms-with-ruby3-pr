@@ -13,10 +13,10 @@ module Refinery
 
     # This method should only be used to create the first Refinery user.
     def create
-      @user = User.new(params[:user])
+      @user = User.new(user_params)
 
       if @user.create_first
-        flash[:message] = "<h2>#{t('welcome', :scope => 'refinery.users.create', :who => @user.username).gsub(/\.$/, '')}.</h2>".html_safe
+        flash[:message] = t('welcome', :scope => 'refinery.users.create', :who => @user.to_s).html_safe
 
         sign_in(@user)
         redirect_back_or_default(refinery.admin_root_path)
@@ -37,6 +37,13 @@ module Refinery
 
     def refinery_users_exist?
       Refinery::Role[:refinery].users.any?
+    end
+
+    def user_params
+      params.require(:user).permit(
+        :email, :password, :password_confirmation, :remember_me, :username,
+        :plugins, :login, :full_name
+      )
     end
 
   end

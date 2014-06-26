@@ -2,19 +2,21 @@ module Refinery
   module Admin
     class PagesController < Refinery::AdminController
       include Pages::InstanceMethods
-      cache_sweeper Pages::PageSweeper
 
       crudify :'refinery/page',
               :order => "lft ASC",
               :include => [:translations, :children],
               :paging => false
 
+<<<<<<< HEAD
       before_filter :load_valid_templates, :only => [:edit, :new, :create]
+=======
+      before_filter :load_valid_templates, :only => [:edit, :new, :create, :update]
+>>>>>>> Plugin-presenters
       before_filter :restrict_access, :only => [:create, :update, :update_positions, :destroy]
-      after_filter proc { Pages::Caching.new().expire! }, :only => :update_positions
 
       def new
-        @page = Page.new(params.except(:controller, :action, :switch_locale))
+        @page = Page.new(new_page_params)
         Pages.default_parts_for(@page).each_with_index do |page_part, index|
           @page.parts << PagePart.new(:title => page_part, :position => index)
         end
@@ -26,7 +28,7 @@ module Refinery
       end
 
       def update
-        if @page.update_attributes(params[:page])
+        if @page.update_attributes(page_params)
           flash.notice = t(
             'refinery.crudify.updated',
             :what => "'#{@page.title}'"
@@ -62,7 +64,7 @@ module Refinery
         end
       end
 
-    protected
+      protected
 
       def after_update_positions
         find_all_pages
@@ -70,7 +72,7 @@ module Refinery
       end
 
       def find_page
-        @page = Page.find_by_path_or_id(params[:path], params[:id])
+        @page = Page.find_by_path_or_id!(params[:path], params[:id])
       end
       alias_method :page, :find_page
 
@@ -104,6 +106,17 @@ module Refinery
         return true
       end
 
+      def page_params
+        params.require(:page).permit(
+          :browser_title, :draft, :link_url, :menu_title, :meta_description,
+          :parent_id, :skip_to_first_child, :show_in_menu, :title, :view_template,
+          :layout_template, :custom_slug, parts_attributes: [:id, :title, :body, :position]
+        )
+      end
+
+      def new_page_params
+        params.permit(:parent_id)
+      end
     end
   end
 end

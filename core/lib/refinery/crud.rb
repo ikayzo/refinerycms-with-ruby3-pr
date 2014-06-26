@@ -68,7 +68,7 @@ module Refinery
           end
 
           def create
-            if (@#{singular_name} = #{class_name}.create(params[:#{singular_name}])).valid?
+            if (@#{singular_name} = #{class_name}.create(#{singular_name}_params)).valid?
               flash.notice = t(
                 'refinery.crudify.created',
                 :what => "'\#{@#{singular_name}.#{options[:title_attribute]}}'"
@@ -85,7 +85,7 @@ module Refinery
           end
 
           def update
-            if @#{singular_name}.update_attributes(params[:#{singular_name}])
+            if @#{singular_name}.update_attributes(#{singular_name}_params)
               flash.notice = t(
                 'refinery.crudify.updated',
                 :what => "'\#{@#{singular_name}.#{options[:title_attribute]}}'"
@@ -109,24 +109,29 @@ module Refinery
 
           # Finds one single result based on the id params.
           def find_#{singular_name}
-            @#{singular_name} = #{class_name}.find(params[:id],
-                                                   :include => #{options[:include].map(&:to_sym).inspect})
+            @#{singular_name} = find_#{singular_name}_scope.find(params[:id])
+          end
+
+          def find_#{singular_name}_scope
+            _finder_scope = #{class_name}.includes(#{options[:include].map(&:to_sym).inspect})
+            _finder_scope = _finder_scope.friendly if _finder_scope.respond_to?(:friendly)
+            _finder_scope
           end
 
           # Find the collection of @#{plural_name} based on the conditions specified into crudify
           # It will be ordered based on the conditions specified into crudify
           # And eager loading is applied as specified into crudify.
           def find_all_#{plural_name}(conditions = #{options[:conditions].inspect})
-            @#{plural_name} = #{class_name}.where(conditions).includes(
-                                #{options[:include].map(&:to_sym).inspect}
-                              ).order("#{options[:order]}")
+            @#{plural_name} = find_#{singular_name}_scope
+                                .where(conditions)
+                                .order("#{options[:order]}")
           end
 
           def merge_position_into_params!
             # if the position field exists, set this object as last object, given the conditions of this class.
             if #{class_name}.column_names.include?("position") && params[:#{singular_name}][:position].nil?
               params[:#{singular_name}].merge!({
-                :position => ((#{class_name}.maximum(:position, :conditions => #{options[:conditions].inspect})||-1) + 1)
+                position: ((#{class_name}.where(#{options[:conditions].inspect}).maximum(:position)||-1) + 1)
               })
             end
           end
@@ -204,14 +209,20 @@ module Refinery
             @#{plural_name} = @#{plural_name}.with_query(params[:search])
           end
 
+          def #{singular_name}_params
+            raise "Please override #{singular_name}_params with your desired parameter security."
+          end
+
           # Ensure all methods are protected so that they should only be called
           # from within the current controller.
           protected :find_#{singular_name},
+                    :find_#{singular_name}_scope,
                     :find_all_#{plural_name},
                     :paginate_all_#{plural_name},
                     :paginate_per_page,
                     :render_partial_response?,
                     :search_all_#{plural_name},
+                    :#{singular_name}_params,
                     :redirect_url,
                     :create_or_update_successful,
                     :create_or_update_unsuccessful,
@@ -284,7 +295,7 @@ module Refinery
                       @current_#{singular_name}.move_to_root
                     end
                   else
-                    @current_#{singular_name}.update_attributes :position => index
+                    @current_#{singular_name}.update_columns position: index
                   end
 
                   if hash['children'].present?

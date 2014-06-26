@@ -11,18 +11,39 @@ module Refinery
 
     class Translation
       is_seo_meta
-      attr_accessible *::SeoMeta.attributes.keys, :locale
+
+      def self.seo_fields
+        ::SeoMeta.attributes.keys.map{|a| [a, :"#{a}="]}.flatten
+      end
+    end
+
+    class FriendlyIdOptions
+      def self.reserved_words
+        %w(index new session login logout users refinery admin images)
+      end
+
+      def self.options
+        # Docs for friendly_id http://github.com/norman/friendly_id
+        friendly_id_options = {
+          use: [:reserved],
+          reserved_words: self.reserved_words
+        }
+        if ::Refinery::Pages.scope_slug_by_parent
+          friendly_id_options[:use] << :scoped
+          friendly_id_options.merge!(scope: :parent)
+        end
+        friendly_id_options[:use] << :globalize
+        friendly_id_options
+      end
+    end
+
+    # If title changes tell friendly_id to regenerate slug when saving record
+    def should_generate_new_friendly_id?
+      changes.keys.include?("title")
     end
 
     # Delegate SEO Attributes to globalize translation
-    seo_fields = ::SeoMeta.attributes.keys.map{|a| [a, :"#{a}="]}.flatten
-    delegate(*(seo_fields << {:to => :translation}))
-
-    attr_accessible :id, :deletable, :link_url, :menu_match,
-                    :skip_to_first_child, :position, :show_in_menu, :draft,
-                    :parts_attributes, :parent_id, :menu_title, :page_id,
-                    :layout_template, :view_template, :custom_slug, :slug,
-                    :title, *::SeoMeta.attributes.keys
+    delegate(*(Translation.seo_fields << {:to => :translation}))
 
     validates :title, :presence => true
 
@@ -32,30 +53,19 @@ module Refinery
     # rather than :delete_all we want :destroy
     acts_as_nested_set :dependent => :destroy
 
-    # Docs for friendly_id http://github.com/norman/friendly_id
-    friendly_id_options = {:use => [:reserved, :globalize], :reserved_words => %w(index new session login logout users refinery admin images wymiframe)}
-    if ::Refinery::Pages.scope_slug_by_parent
-      friendly_id_options[:use] << :scoped
-      friendly_id_options.merge!(:scope => :parent)
-    end
+    friendly_id :custom_slug_or_title, FriendlyIdOptions.options
 
-    friendly_id :custom_slug_or_title, friendly_id_options
-
-    has_many :parts,
-             :foreign_key => :refinery_page_id,
+    has_many :parts, -> {
+      scope = order('position ASC')
+      scope = scope.includes(:translations) if ::Refinery::PagePart.respond_to?(:translation_class)
+      scope
+    },       :foreign_key => :refinery_page_id,
              :class_name => '::Refinery::PagePart',
-             :order => 'position ASC',
              :inverse_of => :page,
-             :dependent => :destroy,
-             :include => ((:translations) if ::Refinery::PagePart.respond_to?(:translation_class))
+             :dependent => :destroy
 
     accepts_nested_attributes_for :parts, :allow_destroy => true
 
-    before_save do |m|
-      m.translation.globalized_model = self
-      m.translation.save if m.translation.new_record?
-    end
-    before_create :ensure_locale!
     before_destroy :deletable?
     after_save :reposition_parts!
 
@@ -68,20 +78,17 @@ module Refinery
 
       # Find page by path, checking for scoping rules
       def find_by_path(path)
-        if ::Refinery::Pages.scope_slug_by_parent
-          # With slugs scoped to the parent page we need to find a page by its full path.
-          # For example with about/example we would need to find 'about' and then its child
-          # called 'example' otherwise it may clash with another page called /example.
-          path = path.split('/').select(&:present?)
-          page = by_slug(path.shift, :parent_id => nil).first
-          while page && path.any? do
-            slug_or_id = path.shift
-            page = page.children.by_slug(slug_or_id).first || page.children.find(slug_or_id)
-          end
-        else
-          page = by_slug(path).first
-        end
+        return by_slug(path).first unless ::Refinery::Pages.scope_slug_by_parent
 
+        # With slugs scoped to the parent page we need to find a page by its full path.
+        # For example with about/example we would need to find 'about' and then its child
+        # called 'example' otherwise it may clash with another page called /example.
+        path = path.split('/').select(&:present?)
+        page = by_slug(path.shift, :parent_id => nil).first
+        while page && path.any? do
+          slug_or_id = path.shift
+          page = page.children.by_slug(slug_or_id).first || page.children.find(slug_or_id)
+        end
         page
       end
 
@@ -91,13 +98,26 @@ module Refinery
       def find_by_path_or_id(path, id)
         if path.present?
           if path.friendly_id?
-            find_by_path(path)
+            friendly.find_by_path(path)
           else
-            find(path)
+            friendly.find(path)
           end
         elsif id.present?
-          find(id)
+          friendly.find(id)
         end
+      end
+
+      # Helps to resolve the situation where you have a path and an id
+      # and if the path is unfriendly then a different finder method is required
+      # than find_by_path.
+      #
+      # raise ActiveRecord::RecordNotFound if not found.
+      def find_by_path_or_id!(path, id)
+        page = find_by_path_or_id(path, id)
+
+        raise ActiveRecord::RecordNotFound unless page
+
+        page
       end
 
       # Finds pages by their title.  This method is necessary because pages
@@ -174,7 +194,7 @@ module Refinery
     end
 
     def translated_to_default_locale?
-      persisted? && translations.where(:locale => Refinery::I18n.default_frontend_locale).any?
+      persisted? && translations.any?{|t| t.locale == Refinery::I18n.default_frontend_locale}
     end
 
     # The canonical page for this particular page.
@@ -207,7 +227,7 @@ module Refinery
     # This ensures that they are in the correct 0,1,2,3,4... etc order.
     def reposition_parts!
       reload.parts.each_with_index do |part, index|
-        part.update_attributes :position => index
+        part.update_columns position: index
       end
     end
 
@@ -223,11 +243,9 @@ module Refinery
 
     # If you want to destroy a page that is set to be not deletable this is the way to do it.
     def destroy!
-      self.menu_match = nil
-      self.link_url = nil
-      self.deletable = true
+      self.update_attributes(:menu_match => nil, :link_url => nil, :deletable => true)
 
-      destroy
+      self.destroy
     end
 
     # Used for the browser title to get the full path to this page
@@ -247,24 +265,6 @@ module Refinery
 
     def url
       Pages::Url.build(self)
-    end
-
-    def link_url_localised?
-      Refinery.deprecate "Refinery::Page#link_url_localised?", :when => '2.2',
-                         :replacement => "Refinery::Pages::Url::Localised#url"
-      Pages::Url::Localised.new(self).url
-    end
-
-    def url_normal
-      Refinery.deprecate "Refinery::Page#url_normal", :when => '2.2',
-                         :replacement => "Refinery::Pages::Url::Normal#url"
-      Pages::Url::Normal.new(self).url
-    end
-
-    def url_marketable
-      Refinery.deprecate "Refinery::Page#url_marketable", :when => '2.2',
-                         :replacement => "Refinery::Pages::Url::Marketable#url"
-      Pages::Url::Marketable.new(self).url
     end
 
     def nested_url
@@ -355,19 +355,37 @@ module Refinery
       # self.parts is usually already eager loaded so we can now just grab
       # the first element matching the title we specified.
       self.parts.detect do |part|
-        part.title.present? and # protecting against the problem that occurs when have nil title
-        part.title == part_title.to_s or
-        part.title.downcase.gsub(" ", "_") == part_title.to_s.downcase.gsub(" ", "_")
+        part.title_matches?(part_title)
       end
     end
 
-  private
+    private
 
-    # Make sures that a translation exists for this page.
-    # The translation is set to the default frontend locale.
-    def ensure_locale!
-      if self.translations.empty?
-        self.translations.build(:locale => Refinery::I18n.default_frontend_locale)
+    class FriendlyIdPath
+      def self.normalize_friendly_id_path(slug_string)
+        # Remove leading and trailing slashes, but allow internal
+        slug_string
+          .sub(%r{^/*}, '')
+          .sub(%r{/*$}, '')
+          .split('/')
+          .select(&:present?)
+          .map {|slug| self.normalize_friendly_id_with_marketable_urls(slug) }.join('/')
+      end
+
+      def self.normalize_friendly_id_with_marketable_urls(slug_string)
+        # If we are scoping by parent, no slashes are allowed. Otherwise, slug is
+        # potentially a custom slug that contains a custom route to the page.
+        if !Pages.scope_slug_by_parent && slug_string.include?('/')
+          self.normalize_friendly_id_path(slug_string)
+        else
+          self.protected_slug_string(slug_string)
+        end
+      end
+
+      def self.protected_slug_string(slug_string)
+        sluggified = slug_string.to_slug.normalize!
+        sluggified << "-page" if Pages.marketable_urls && FriendlyIdOptions.reserved_words.include?(sluggified)
+        sluggified
       end
     end
 
@@ -378,18 +396,7 @@ module Refinery
     #
     # Returns the sluggified string
     def normalize_friendly_id_with_marketable_urls(slug_string)
-      # If we are scoping by parent, no slashes are allowed. Otherwise, slug is potentially
-      # a custom slug that contains a custom route to the page.
-      if !Pages.scope_slug_by_parent && slug_string.include?('/')
-        slug_string.sub!(%r{^/*}, '').sub!(%r{/*$}, '') # Remove leading and trailing slashes, but allow internal
-        slug_string.split('/').select(&:present?).map {|s| normalize_friendly_id_with_marketable_urls(s) }.join('/')
-      else
-        sluggified = slug_string.to_slug.normalize!
-        if Pages.marketable_urls && self.class.friendly_id_config.reserved_words.include?(sluggified)
-          sluggified << "-page"
-        end
-        sluggified
-      end
+      FriendlyIdPath.normalize_friendly_id_with_marketable_urls(slug_string)
     end
     alias_method_chain :normalize_friendly_id, :marketable_urls
 

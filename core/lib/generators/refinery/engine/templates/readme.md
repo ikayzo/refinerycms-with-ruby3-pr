@@ -1,6 +1,6 @@
 # <%= extension_plural_name.titleize %> extension for Refinery CMS.
 
-## How to build this extension as a gem
+## How to build this extension as a gem (not required)
 
     cd vendor/extensions/<%= extension_plural_name %>
     gem build refinerycms-<%= extension_plural_name %>.gemspec

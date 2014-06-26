@@ -8,6 +8,7 @@ module Refinery
     let(:draft_page) { Page.create :title => 'Draft', :draft => true }
     before do
       # Stub the menu pages we're expecting
+      ::I18n.default_locale = Globalize.locale = :en
       Page.stub(:fast_menu).and_return([home_page, about_page])
     end
 
@@ -97,15 +98,17 @@ module Refinery
         end
 
         it 'shows the menu_title in the menu' do
-          visit '/news'
+          visit refinery.url_for(page_mt.url)
 
-          find(".selected").text.strip.should == page_mt.menu_title
+          within ".selected" do
+            expect(page).to have_content(page_mt.menu_title)
+          end
         end
 
-        it "does not effect browser title and page title" do
-          visit "/news"
+        it "does not affect browser title and page title" do
+          visit refinery.url_for(page_mt.url)
 
-          page.has_title?(page_mt.title)
+          page.should have_title(page_mt.title)
           find("#body_content_title").text.should == page_mt.title
         end
       end
@@ -152,6 +155,14 @@ module Refinery
       let(:page_cs) { Page.create :title => 'About Us' }
       before do
         Page.stub(:fast_menu).and_return([page_cs])
+      end
+      
+      describe 'canonical url' do
+        it 'should have a canonical url' do
+          visit '/about-us'
+
+          page.should have_selector('head link[rel="canonical"][href^="http://www.example.com/about-us"]', visible: false)
+        end
       end
 
       describe 'not set' do
@@ -325,29 +336,6 @@ module Refinery
       end
     end
 
-    describe "full page caching" do
-      include CachingHelpers
-      let(:cached_page) { Page.create :title => 'Another Cached page' }
-
-      context "is enabled", :caching do
-        it "should create a cached file when none exists" do
-          cached_page.should_not be_cached
-
-          visit refinery.page_path(cached_page)
-
-          cached_page.should be_cached
-        end
-      end
-
-      context "is disabled" do
-        it "should not cache a page" do
-          page.should_not be_cached
-          visit refinery.page_path(cached_page)
-          cached_page.should_not be_cached
-        end
-      end
-    end
-
     context "with multiple locales" do
 
       describe "redirects" do
@@ -358,9 +346,7 @@ module Refinery
         let(:ru_page_title) { 'Новости' }
         let(:ru_page_slug_encoded) { '%D0%BD%D0%BE%D0%B2%D0%BE%D1%81%D1%82%D0%B8' }
         let!(:news_page) do
-          _page = Globalize.with_locale(:en) {
-            Page.create :title => en_page_title
-          }
+          _page = Globalize.with_locale(:en) { Page.create title: en_page_title }
           Globalize.with_locale(:ru) do
             _page.title = ru_page_title
             _page.save
@@ -390,10 +376,11 @@ module Refinery
         end
 
         describe "nested page" do
-          let(:nested_page_title) { '2012' }
-          let(:nested_page_slug) { '2012' }
+          let(:nested_page_title) { 'nested_page' }
+          let(:nested_page_slug) { 'nested_page' }
 
           let!(:nested_page) do
+            Globalize.fallbacks = [:ru]
             _page = Globalize.with_locale(:en) {
               news_page.children.create :title => nested_page_title
             }
@@ -402,7 +389,6 @@ module Refinery
               _page.title = nested_page_title
               _page.save
             end
-
             _page
           end
 

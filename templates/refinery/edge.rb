@@ -14,13 +14,22 @@ end
 append_file 'Gemfile' do
 "
 gem 'refinerycms', github: 'refinery/refinerycms', branch: 'master'
+gem 'refinerycms-i18n', github: 'refinery/refinerycms-i18n', branch: 'master'
 
-# Optionally, specify additional Refinery CMS Extensions here:
-gem 'refinerycms-acts-as-indexed', '~> 1.0.0'
-#  gem 'refinerycms-blog', github: 'refinery/refinerycms-blog', branch: 'master'
-#  gem 'refinerycms-inquiries', github: 'refinery/refinerycms-inquiries', branch: 'master'
-#  gem 'refinerycms-search', github: 'refinery/refinerycms-search', branch: 'master'
-#  gem 'refinerycms-page-images', github: 'refinery/refinerycms-page-images', branch: 'master'
+gem 'friendly_id', github: 'norman/friendly_id', branch: 'master'
+gem 'friendly_id-globalize', github: 'norman/friendly_id-globalize', branch: 'master'
+gem 'quiet_assets'
+
+# Add support for refinerycms-acts-as-indexed
+gem 'refinerycms-acts-as-indexed', github: 'refinery/refinerycms-acts-as-indexed'
+
+# Add support for refinerycms-wymeditor
+gem 'refinerycms-wymeditor', github: 'parndt/refinerycms-wymeditor', branch: 'take-2'
+
+gem 'seo_meta', github: 'parndt/seo_meta', branch: 'master'
+
+gem 'paper_trail', github: 'airblade/paper_trail', branch: 'master'
+gem 'awesome_nested_set', github: 'collectiveidea/awesome_nested_set', branch: 'master'
 "
 end
 

@@ -56,6 +56,12 @@ module Refinery
         page_cannot_be_destroyed
         page.destroy!.should be
       end
+
+      it "even if you really want it to AND it's saved! >:]" do
+        page.update_attribute(:deletable, false)
+        page_cannot_be_destroyed
+        page.destroy!.should be
+      end
     end
 
     context 'page urls' do
@@ -178,6 +184,7 @@ module Refinery
       let(:custom_page_slug) { 'custom-page-slug' }
       let(:custom_child_slug) { 'custom-child-slug' }
       let(:custom_route) { '/products/my-product' }
+      let(:custom_route_slug) { 'products/my-product' }
       let(:page_with_custom_slug) {
         subject.class.new(:title => page_title, :custom_slug => custom_page_slug)
       }
@@ -203,7 +210,7 @@ module Refinery
         turn_off_slug_scoping
         page_with_custom_route.save
         page_with_custom_route.url[:id].should be_nil
-        page_with_custom_route.url[:path].should == [custom_route]
+        page_with_custom_route.url[:path].should == [custom_route_slug]
         turn_on_slug_scoping
       end
 
@@ -292,6 +299,19 @@ module Refinery
       end
     end
 
+    describe "#should_generate_new_friendly_id?" do
+      context "when title changes" do
+        it "regenerates slug upon save" do
+          page = Page.create!(:title => "Test Title")
+
+          page.title = "Test Title 2"
+          page.save!
+
+          expect(page.slug).to eq("test-title-2")
+        end
+      end
+    end
+
     context 'content sections (page parts)' do
       before do
         page.parts.new(:title => 'body', :content => "I'm the first page part for this page.", :position => 0)
@@ -339,8 +359,8 @@ module Refinery
       it 'reposition correctly' do
         page.save
 
-        page.parts.first.update_attributes :position => 6
-        page.parts.last.update_attributes :position => 4
+        page.parts.first.update_columns position: 6
+        page.parts.last.update_columns position: 4
 
         page.parts.first.position.should == 6
         page.parts.last.position.should == 4
@@ -567,6 +587,19 @@ module Refinery
         it "finds page using id" do
           Page.find_by_path_or_id("", id).should eq(market)
         end
+      end
+    end
+
+    describe ".find_by_path_or_id!" do
+      it "delegates to find_by_path_or_id" do
+        lambda do
+          expect(Page).to receive(:find_by_path_or_id).with("path", "id")
+          Page.find_by_path_or_id!("path", "id")
+        end
+      end
+
+      it "throws exception when page isn't found" do
+        expect { Page.find_by_path_or_id!("not", "here") }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
 

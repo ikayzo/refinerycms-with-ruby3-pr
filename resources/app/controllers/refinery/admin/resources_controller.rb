@@ -23,7 +23,7 @@ module Refinery
             flash.notice = t('created', :scope => 'refinery.crudify', :what => "'#{@resources.map(&:title).join("', '")}'")
             if from_dialog?
               @dialog_successful = true
-              render :nothing => true, :layout => true
+              render :template => "/refinery/admin/dialog_success", :layout => true
             else
               redirect_to refinery.admin_resources_path
             end
@@ -80,6 +80,10 @@ module Refinery
         @resources = Resource.where(conditions).
                               paginate(:page => params[:page], :per_page => Resource.per_page(from_dialog?)).
                               order('created_at DESC')
+      end
+
+      def resource_params
+        params.require(:resource).permit(:file)
       end
 
     end

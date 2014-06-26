@@ -5,35 +5,36 @@ module Refinery
     module Dragonfly
 
       class << self
-        def setup!
-          app_images = ::Dragonfly[:refinery_images]
-
-          app_images.define_macro(::Refinery::Image, :image_accessor)
-
-          app_images.analyser.register(::Dragonfly::ImageMagick::Analyser)
-          app_images.analyser.register(::Dragonfly::Analysis::FileCommandAnalyser)
-        end
-
         def configure!
-          app_images = ::Dragonfly[:refinery_images]
-          app_images.configure_with(:imagemagick)
-          app_images.configure_with(:rails) do |c|
-            c.datastore.root_path = Refinery::Images.datastore_root_path
-            c.url_format = Refinery::Images.dragonfly_url_format
-            c.url_host = Refinery::Images.dragonfly_url_host
-            c.secret = Refinery::Images.dragonfly_secret
-            c.trust_file_extensions = Refinery::Images.trust_file_extensions
+          ActiveRecord::Base.extend ::Dragonfly::Model
+          ActiveRecord::Base.extend ::Dragonfly::Model::Validations
+
+          app_images = ::Dragonfly.app(:refinery_images)
+
+          app_images.configure do
+            plugin :imagemagick
+            datastore :file, {
+              :root_path => Refinery::Images.datastore_root_path
+            }
+            url_format Refinery::Images.dragonfly_url_format
+            url_host Refinery::Images.dragonfly_url_host
+            secret Refinery::Images.dragonfly_secret
+            dragonfly_url nil
+            processor :strip do |content|
+              content.process!(:convert, '-strip')
+            end
           end
 
           if ::Refinery::Images.s3_backend
-            app_images.datastore = ::Dragonfly::DataStorage::S3DataStore.new
-            app_images.datastore.configure do |s3|
-              s3.bucket_name = Refinery::Images.s3_bucket_name
-              s3.access_key_id = Refinery::Images.s3_access_key_id
-              s3.secret_access_key = Refinery::Images.s3_secret_access_key
-              # S3 Region otherwise defaults to 'us-east-1'
-              s3.region = Refinery::Images.s3_region if Refinery::Images.s3_region
-            end
+            require 'dragonfly/s3_data_store'
+            options = {
+              bucket_name: Refinery::Images.s3_bucket_name,
+              access_key_id: Refinery::Images.s3_access_key_id,
+              secret_access_key: Refinery::Images.s3_secret_access_key
+            }
+            # S3 Region otherwise defaults to 'us-east-1'
+            options.update(region: Refinery::Images.s3_region) if Refinery::Images.s3_region
+            app_images.use_datastore :s3, options
           end
 
           if Images.custom_backend?
@@ -44,10 +45,17 @@ module Refinery
         ##
         # Injects Dragonfly::Middleware for Refinery::Images into the stack
         def attach!(app)
-          if ::Rails.application.config.action_controller.perform_caching
-            app.config.middleware.insert_after 'Rack::Cache', 'Dragonfly::Middleware', :refinery_images
+          if defined?(::Rack::Cache)
+            unless app.config.action_controller.perform_caching && app.config.action_dispatch.rack_cache
+              app.config.middleware.insert 0, ::Rack::Cache, {
+                verbose: true,
+                metastore: URI.encode("file:#{Rails.root}/tmp/dragonfly/cache/meta"), # URI encoded in case of spaces
+                entitystore: URI.encode("file:#{Rails.root}/tmp/dragonfly/cache/body")
+              }
+            end
+            app.config.middleware.insert_after ::Rack::Cache, ::Dragonfly::Middleware, :refinery_images
           else
-            app.config.middleware.use 'Dragonfly::Middleware', :refinery_images
+            app.config.middleware.use ::Dragonfly::Middleware, :refinery_images
           end
         end
       end

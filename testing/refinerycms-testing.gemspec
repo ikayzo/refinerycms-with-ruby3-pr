@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.email             = %q{info@refinerycms.com}
   s.homepage          = %q{http://refinerycms.com}
   s.rubyforge_project = %q{refinerycms}
-  s.authors           = ['Philip Arndt', 'Uģis Ozols', 'Rob Yurkowski']
+  s.authors           = ['Philip Arndt', 'Uģis Ozols']
   s.license           = %q{MIT}
   s.require_paths     = %w(lib)
 
@@ -24,5 +24,8 @@ Gem::Specification.new do |s|
   s.add_dependency 'rspec-rails',             '~> 2.13'
   s.add_dependency 'capybara',                '~> 2.1.0'
   s.add_dependency 'selenium-webdriver',      '~> 2.38.0'
+<<<<<<< HEAD
   s.add_dependency 'mime-types',              '~> 1.16'
+=======
+>>>>>>> Plugin-presenters
 end

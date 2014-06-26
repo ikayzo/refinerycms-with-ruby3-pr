@@ -2,31 +2,43 @@ source 'https://rubygems.org'
 
 gemspec
 
-# Add support for refinerycms-acts-as-indexed
-gem 'refinerycms-acts-as-indexed', '~> 1.0.0'
+gem 'rails', '~> 4.1.0'
+gem 'friendly_id', '~> 5.0.0'
+gem 'friendly_id-globalize', '>= 1.0.0.alpha1'
+gem 'refinerycms-i18n', git: 'https://github.com/refinery/refinerycms-i18n', branch: 'master'
+gem 'quiet_assets'
+gem 'awesome_nested_set', git: 'https://github.com/collectiveidea/awesome_nested_set', branch: 'master'
 
-gem 'quiet_assets', :group => :development
+# Add support for refinerycms-acts-as-indexed
+gem 'refinerycms-acts-as-indexed', git: 'https://github.com/refinery/refinerycms-acts-as-indexed'
+
+gem 'seo_meta', git: 'https://github.com/parndt/seo_meta', branch: 'master'
+
+# Add the default visual editor.
+gem 'refinerycms-wymeditor', github: 'parndt/refinerycms-wymeditor', branch: 'take-2'
 
 # Database Configuration
 unless ENV['TRAVIS']
-  gem 'activerecord-jdbcsqlite3-adapter', :platform => :jruby
-  gem 'sqlite3', :platform => :ruby
+  gem 'activerecord-jdbcsqlite3-adapter', '>= 1.3.0.rc1', platform: :jruby
+  gem 'sqlite3', platform: :ruby
 end
 
 if !ENV['TRAVIS'] || ENV['DB'] == 'mysql'
-  gem 'activerecord-jdbcmysql-adapter', :platform => :jruby
-  gem 'jdbc-mysql', '= 5.1.13', :platform => :jruby
-  gem 'mysql2', :platform => :ruby
+  group :mysql do
+    gem 'activerecord-jdbcmysql-adapter', '>= 1.3.0.rc1', :platform => :jruby
+    gem 'mysql2', :platform => :ruby
+  end
 end
 
 if !ENV['TRAVIS'] || ENV['DB'] == 'postgresql'
-  gem 'activerecord-jdbcpostgresql-adapter', :platform => :jruby
-  gem 'pg', :platform => :ruby
+  group :postgres, :postgresql do
+    gem 'activerecord-jdbcpostgresql-adapter', '>= 1.3.0.rc1', :platform => :jruby
+    gem 'pg', :platform => :ruby
+  end
 end
 
-gem 'jruby-openssl', :platform => :jruby
-
 group :test do
+<<<<<<< HEAD
   gem 'refinerycms-testing', '~> 2.1.0'
   gem 'generator_spec', '~> 0.9.0'
 end
@@ -37,6 +49,11 @@ group :assets do
   gem 'sass-rails'
   gem 'coffee-rails', '~> 3.2.2'
   gem 'uglifier'
+=======
+  gem 'refinerycms-testing', '~> 3.0.0.dev'
+  gem 'generator_spec', '~> 0.9.1'
+  gem 'launchy'
+>>>>>>> Plugin-presenters
 end
 
 # Load local gems according to Refinery developer preference.

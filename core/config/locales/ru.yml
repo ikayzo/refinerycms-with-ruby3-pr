@@ -1,5 +1,8 @@
 ru:
   refinery:
+    js:
+      admin:
+        confirm_changes: Любые сделанные изменения будут потеряны. Вы уверены, что хотите продолжить без сохранения?
     plugins:
       refinery_core:
         title: Refinery
@@ -49,6 +52,8 @@ ru:
         button_text: Поиск
         results_for_html: "Результаты поиска для &#8216;<em>%{query}</em>&#8217;"
         no_results: Ничего не найдено
+        cancel_search: Отмена поиска
+        search_input_notice: Введите строку содержащую то, что вы ищете, минимум 3 символа.
       delete:
         message: Вы уверены, что хотите удалить '%{title}'?
       error_messages:

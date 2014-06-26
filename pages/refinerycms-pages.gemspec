@@ -12,17 +12,24 @@ Gem::Specification.new do |s|
   s.email             = %q{info@refinerycms.com}
   s.homepage          = %q{http://refinerycms.com}
   s.rubyforge_project = %q{refinerycms}
-  s.authors           = ['Philip Arndt', 'Uģis Ozols', 'Rob Yurkowski']
+  s.authors           = ['Philip Arndt', 'Uģis Ozols']
   s.license           = %q{MIT}
   s.require_paths     = %w(lib)
 
   s.files             = `git ls-files`.split("\n")
   s.test_files        = `git ls-files -- spec/*`.split("\n")
 
+<<<<<<< HEAD
   s.add_dependency 'friendly_id',                 '~> 4.0.9'
   s.add_dependency 'globalize',                   '~> 3.1.0'
   s.add_dependency 'awesome_nested_set',          '~> 2.1.3'
   s.add_dependency 'seo_meta',                    '~> 1.4.0'
+=======
+  s.add_dependency 'friendly_id',                 '~> 5.0.1'
+  s.add_dependency 'globalize',                   '~> 4.0.0'
+  s.add_dependency 'awesome_nested_set',          '~> 3.0.0.rc.1'
+  s.add_dependency 'seo_meta',                    '~> 2.0.0.rc.1'
+>>>>>>> Plugin-presenters
   s.add_dependency 'refinerycms-core',            version
   s.add_dependency 'babosa',                      '!= 0.3.6'
 end
