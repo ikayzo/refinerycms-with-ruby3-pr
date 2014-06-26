@@ -18,7 +18,7 @@ module Refinery
       end
 
       def has_content?(can_use_fallback = true)
-        !@collection.nil?
+        !@collection.blank?
       end
 
       def wrap_content_in_tag(content)
