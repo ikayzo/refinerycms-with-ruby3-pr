@@ -40,7 +40,8 @@
   <div id='page_part_editors'>
     <% part_index = -1 %>
     <%= f.fields_for :parts do |p| %>
-      <%= render 'page_part_field',
+      <% template = p.object[:template] || 'page_part_field' %>
+      <%= render template,
                  :part => p.object,
                  :part_index => (part_index += 1),
                  :new_part => @page.new_record? -%>
