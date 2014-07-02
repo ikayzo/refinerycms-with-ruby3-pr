@@ -152,7 +152,6 @@ module Refinery
           page.body.should =~ %r{/pages/the-first-page}
         end
 
-<<<<<<< HEAD
         it "shows error if title is blank" do
           visit refinery.admin_pages_path
 
@@ -161,7 +160,6 @@ module Refinery
           click_button "Save"
 
           page.should have_content("Title can't be blank")
-=======
         it "allows to easily create nested page" do
           parent_page = Page.create! :title => "Rails 4"
 
@@ -173,7 +171,6 @@ module Refinery
           click_button "Save"
 
           page.should have_content("'Parent page' was successfully added.")
->>>>>>> Plugin-presenters
         end
       end
 

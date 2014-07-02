@@ -8,12 +8,7 @@ module Refinery
               :include => [:translations, :children],
               :paging => false
 
-<<<<<<< HEAD
-      before_filter :load_valid_templates, :only => [:edit, :new, :create]
-=======
       before_filter :load_valid_templates, :only => [:edit, :new, :create, :update]
->>>>>>> Plugin-presenters
-      before_filter :restrict_access, :only => [:create, :update, :update_positions, :destroy]
 
       def new
         @page = Page.new(new_page_params)
