@@ -103,11 +103,13 @@ module Refinery
       end
 
       def page_params
-        params.require(:page).permit(
-          :browser_title, :draft, :link_url, :menu_title, :meta_description,
+        param_list = [:browser_title, :draft, :link_url, :menu_title, :meta_description,
           :parent_id, :skip_to_first_child, :show_in_menu, :title, :view_template,
-          :layout_template, :custom_slug, parts_attributes: [:id, :title, :body, :position]
-        )
+          :layout_template, :custom_slug, parts_attributes: [:id, :title, :body, :position]]
+        Refinery::Plugins.registered.each do |p|
+          param_list.push p.page_attributes if p.page_attributes
+        end
+        params.require(:page).permit(param_list)
       end
 
       def new_page_params
