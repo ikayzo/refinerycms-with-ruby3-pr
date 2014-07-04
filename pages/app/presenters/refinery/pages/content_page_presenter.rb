@@ -25,7 +25,6 @@ module Refinery
 
       def add_page_parts(page)
         page.parts.each do |part|
-
           section_id = convert_title_to_id(part.title)
           section_data = find_data(page, section_id)
           section_presenter = find_presenter("Refinery::Pages::#{section_id.capitalize}SectionPresenter")
@@ -51,7 +50,7 @@ module Refinery
       end
 
       def find_data(page, part_name)
-        page.respond_to?(part_name) ? page.send(part_name) : instance_variable_get('@'+part_name.to_s)
+        page.send(part_name) unless !page.respond_to?(part_name)
       end
     end
   end

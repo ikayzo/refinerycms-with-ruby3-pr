@@ -6,7 +6,7 @@ module Refinery
       # TODO do a better fallback_html
 
       attr_accessor :output_buffer
-      config_accessor :collection_tag, :collection_class, :item_tag, :item_class
+      config_accessor :content_wrapper_tag, :collection_tag, :collection_class, :item_tag, :item_class
 
       self.collection_tag = :ul
       self.item_tag = :li

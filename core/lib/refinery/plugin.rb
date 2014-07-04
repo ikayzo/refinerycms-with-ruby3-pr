@@ -18,14 +18,8 @@ module Refinery
       plugin.class_name ||= plugin.name.camelize
       plugin.edit_page_template ||= 'page_part_field'
 
-
       # add the new plugin to the collection of registered plugins unless it is a duplicate name
-      if plugin.name.in?Refinery::Plugins.registered.names
-        Rails.logger.error "Tried to register duplicate plugin: #{plugin.name}"
-      else
-        ::Refinery::Plugins.registered << plugin
-      end
-
+      ::Refinery::Plugins.registered << plugin unless plugin.name.in?Refinery::Plugins.registered.names
 
     end
 
