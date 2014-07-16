@@ -8,8 +8,12 @@ module Refinery
 
     translates :body
 
-    def to_param
+    def to_param()
       "page_part_#{title.downcase.gsub(/\W/, '_')}"
+    end
+
+    def anchor(index)
+       "page_part_new_#{index}"
     end
 
     def body=(value)
@@ -24,7 +28,12 @@ module Refinery
         parameterized_title == parameterize(other_title.to_s)
     end
 
+    def edit_page_template
+      part_plugin = Refinery::Plugins.registered[plugin]
+      part_plugin.nil? ? 'page_part_field' : part_plugin.edit_page_template
+    end
     protected
+
     def normalise_text_fields
       if body? && body !~ %r{^<}
         self.body = "<p>#{body.gsub("\r\n\r\n", "</p><p>").gsub("\r\n", "<br/>")}</p>"

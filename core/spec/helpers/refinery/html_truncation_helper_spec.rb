@@ -16,9 +16,8 @@ module Refinery
       end
 
       context "when preserve_html_tags option is not present" do
-        it "falls back to original truncate method" do
-          expect(helper.truncate("<p>Turducken frankfurter ham hock bacon</p>").html_safe).to 
-                 eq("<p>Turducken frankfurter ha...")
+         it "truncates leaving html tags untouched" do
+          expect(helper.truncate("<p>Turducken frankfurter ham hock bacon</p>").html_safe).to eq("<p>Turducken frankfurter ha...")
         end
       end
     end
