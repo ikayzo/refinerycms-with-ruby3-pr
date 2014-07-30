@@ -6,9 +6,7 @@ module Refinery
       # TODO do a better fallback_html
 
       attr_accessor :output_buffer
-      config_accessor :content_wrapper_tag,
-        :collection_tag, :collection_class, :collection_id,
-        :item_wrapper_tag, :item_tag, :item_class
+      config_accessor :content_wrapper_tag, :collection_tag, :collection_class, :collection_id, :item_wrapper_tag, :item_tag, :item_class
 
       self.collection_tag = :ul
       self.item_wrapper_tag = :li
@@ -33,7 +31,12 @@ module Refinery
 
       private
 
+      def content_html(can_use_fallback)
+        override_html.present? ? override_html : collection_markup()
+      end
+
       def collection_markup()
+        Rails.logger.debug "Writing collection markup."
         unless @collection.blank?
           content_tag(collection_tag.to_sym, class: collection_class ) do
             @collection.each.inject(ActiveSupport::SafeBuffer.new) do |buffer, item|
