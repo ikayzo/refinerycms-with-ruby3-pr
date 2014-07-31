@@ -36,7 +36,6 @@ module Refinery
       end
 
       def collection_markup()
-        Rails.logger.debug "Writing collection markup."
         unless @collection.blank?
           content_tag(collection_tag.to_sym, class: collection_class ) do
             @collection.each.inject(ActiveSupport::SafeBuffer.new) do |buffer, item|
