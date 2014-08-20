@@ -68,7 +68,7 @@ module Refinery
         tabs =  render 'form_page_option_section', {templates: templates, f:form}
         return links << tabs
       end
-# -----------------------------------------------------------------------------------
+
       def page_tabs_and_editors(page, form)
         tabs = page.parts.each_with_index.map do
           |part, index| {
@@ -83,7 +83,7 @@ module Refinery
              |tab, index| {
                title: tab.name.titleize,
                template: tab.partial,
-               anchor:  "#custom_tab_#{index}",
+               anchor:  "custom_tab_#{index}",
                content: '' }
         end
 

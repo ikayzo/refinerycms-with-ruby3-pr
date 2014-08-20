@@ -701,8 +701,26 @@ label.stripped {
 #records.files .record .title.pdf, #dialog_main #resource_file_area .pages_list ul li a.page_link.pdf {
 	background-image: image_url('refinery/icons/pdf.png');
 }
-#records.files .record .title.jpg, #records.files .record .title.gif, #records.files .record .title.jpeg, #records.files .record .title.png, #records.files .record .title.tiff, #dialog_main #resource_file_area .pages_list ul li a.page_link.jpg, #dialog_main #resource_file_area .pages_list ul li a.page_link.jpeg, #dialog_main #resource_file_area .pages_list ul li a.page_link.gif, #dialog_main #resource_file_area .pages_list ul li a.page_link.png, #dialog_main #resource_file_area .pages_list ul li a.page_link.tiff {
+#records.files .record .title.jpg,
+#records.files .record .title.gif,
+#records.files .record .title.jpeg,
+#records.files .record .title.png,
+#records.files .record .title.tiff,
+#dialog_main #resource_file_area .pages_list ul li a.page_link.jpg,
+#dialog_main #resource_file_area .pages_list ul li a.page_link.jpeg,
+#dialog_main #resource_file_area .pages_list ul li a.page_link.gif,
+#dialog_main #resource_file_area .pages_list ul li a.page_link.png,
+#dialog_main #resource_file_area .pages_list ul li a.page_link.tiff {
 	background-image: image_url('refinery/icons/img.png');
+}
+
+#records.images .record {
+  // .alt, .preview {
+    // background-repeat: no-repeat;
+    // padding-left: 16px;
+  // }
+  // .alt { background-image: image_url('refinery/icons/information.png')}
+  // .preview {background-image: image_url('refinery/icons/image.png')}
 }
 #records.files .record .title.doc, #records.files .record .title.pages, #records.files .record .title.docx, #dialog_main #resource_file_area .pages_list ul li a.page_link.doc, #dialog_main #resource_file_area .pages_list ul li a.page_link.docx, #dialog_main #resource_file_area .pages_list ul li a.page_link.pages {
 	background-image: image_url('refinery/icons/doc.png');

@@ -3,8 +3,10 @@ require 'spec_helper'
 module Refinery
   describe Image, :type => :model do
 
-    let(:image) { FactoryGirl.build(:image) }
+    let(:image)         { FactoryGirl.build(:image) }
     let(:created_image) { FactoryGirl.create(:image) }
+    let(:titled_image)  { FactoryGirl.create(:image, image_title: 'Image Title')}
+    let(:image_with_alt_text) { FactoryGirl.create(:image, image_alt: 'Alt Text')}
 
     describe "validations" do
       describe "valid #image" do
@@ -99,8 +101,28 @@ module Refinery
     end
 
     describe "#title" do
-      it "returns a titleized version of the filename" do
-        expect(image.title).to eq("Beach")
+      context 'when a specific title has not been given' do
+        it "returns a titleized version of the filename" do
+          expect(image.title).to eq("Beach")
+        end
+      end
+      context 'when a specific title has been given' do
+        it 'returns that title' do
+          expect(titled_image.title).to eq('Image Title')
+        end
+      end
+    end
+
+    describe "#alt" do
+      context 'when no alt attribute is given' do
+        it "returns the title" do
+          expect(image.alt).to eq(image.title)
+        end
+      end
+      context 'when an alt attribute is given' do
+        it 'returns that alt attribute' do
+          expect(image_with_alt_text.alt).to  eq('Alt Text')
+        end
       end
     end
 

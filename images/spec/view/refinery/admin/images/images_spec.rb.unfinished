@@ -1,0 +1,16 @@
+# spec/views/refinery/admin/images/images_spec.rb
+
+require 'spec_helper'
+
+describe 'index view' do
+  it 'shows the selected view format' do
+  end
+  it 'displays product details correctly' do
+    assign(:product, Product.create(name: 'Shirt', price: 50.0))
+
+    render
+
+    rendered.should contain('Shirt')
+    rendered.should contain('50.0')
+  end
+end
