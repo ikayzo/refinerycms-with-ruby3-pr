@@ -7,7 +7,7 @@ module Refinery
                     :default_parts, :use_custom_slugs, :scope_slug_by_parent,
                     :cache_pages_backend, :cache_pages_full, :layout_template_whitelist,
                     :use_layout_templates, :page_title, :absolute_page_links, :types,
-                    :auto_expand_admin_tree, :show_title_in_body
+                    :auto_expand_admin_tree, :show_title_in_body, :admin_page_params
 
     self.pages_per_dialog = 14
     self.pages_per_admin_index = 20
@@ -21,6 +21,9 @@ module Refinery
     self.cache_pages_backend = false
     self.cache_pages_full = false
     self.layout_template_whitelist = ["application"]
+    self.admin_page_params =[:browser_title, :draft, :link_url, :menu_title, :meta_description,
+          :parent_id, :skip_to_first_child, :show_in_menu, :title, :view_template,
+          :layout_template, :custom_slug, parts_attributes: [:id, :title, :body, :position]]
     class << self
       def layout_template_whitelist
         Array(config.layout_template_whitelist).map(&:to_s)
