@@ -4,6 +4,7 @@ module Refinery
 
   describe "Admin Images Tab", type: :feature do
     refinery_login_with :refinery_user
+    include_context 'always'
     include_context 'admin images tab'
 
     context 'when there are no images' do
@@ -25,6 +26,7 @@ module Refinery
       it_has_behaviour 'shows an image preview'
       it_has_behaviour 'deletes an image'
       it_has_behaviour 'uploads images'
+      it_has_behaviour 'updates an image'
     end
 
     context 'when there are many images' do
@@ -36,7 +38,7 @@ module Refinery
       it_has_behaviour 'shows an image preview'
       it_has_behaviour 'deletes an image'
       it_has_behaviour 'uploads images'
-    # it_has_behaviour 'edits an image'
+      it_has_behaviour 'updates an image'
     end
 
   end
@@ -44,6 +46,7 @@ module Refinery
   describe 'Page Edit tab - Insert Image', type: :feature do
     refinery_login_with :refinery_user
 
+    include_context 'always'
     include_context 'Visual Editor - add image'
 
     around(:each) do
@@ -51,6 +54,7 @@ module Refinery
 
         context 'when there are no images' do
           include_context 'no existing images'
+
           it_has_behaviour 'uploads images'
         end
 

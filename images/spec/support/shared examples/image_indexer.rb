@@ -1,7 +1,5 @@
 shared_examples_for 'indexes images' do
 
-  let(:image_count) {[Refinery::Image.count, Refinery::Images.pages_per_admin_index].min}
-
   before do
     raise "please set let(:initial_path)" if initial_path.blank?
     ensure_on(initial_path)
