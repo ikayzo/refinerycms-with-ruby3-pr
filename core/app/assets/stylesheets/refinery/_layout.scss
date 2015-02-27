@@ -1104,8 +1104,8 @@ a img {
 .preview_icon         {@include icon('eye', $icon_preview_colour)}
 .reorder_icon         {@include icon('reorder');}
 .reorder_icon.loading {@include icon('spinner')}
-.folder_icon          {@include icon('folder', #E6CB47)}
-.page_icon            {@include icon('file-o',#00ffff)}
+.folder_icon          {@include icon('folder',$icon_folder_colour)}
+.page_icon            {@include icon('file-o',$icon_page_colour)}
 .user_comment_icon    {@include icon('comment-o');}
 .edit_email_icon      {@include icon('envelope-o');}
 .spam_icon            {@include icon('trash');}
