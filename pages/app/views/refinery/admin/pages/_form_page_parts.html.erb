@@ -1,21 +1,21 @@
 <% if ::Refinery::Pages.new_page_parts %>
   <ul id="page_parts_controls">
     <li>
-      <%= link_to refinery_icon_tag('arrow_left_right.png'), '#',
+      <%= link_to icon('arrows-h'), '#',
                   :id => 'reorder_page_part',
                   :title => t('.reorder_content_section') %>
-      <%= link_to refinery_icon_tag('tick.png'), "",
+      <%= link_to icon('check-circle'), "",
                   :id => 'reorder_page_part_done',
                   :title => t('.reorder_content_section_done'),
                   :style => "display: none;" %>
     </li>
     <li>
-      <%= link_to refinery_icon_tag('add.png'), '#',
+      <%= link_to icon('plus-circle'), '#',
                   :id => 'add_page_part',
                   :title => t('.create_content_section') %>
     </li>
     <li>
-      <%= link_to refinery_icon_tag('delete.png'), '#',
+      <%= link_to icon('times-circle'), '#',
                   :title => t('.delete_content_section'),
                   :class => 'delete_page_part',
                   :name => t('.delete_content_section'),

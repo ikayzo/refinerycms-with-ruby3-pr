@@ -28,21 +28,24 @@
     <% end %>
 
     <span class='actions'>
-      <%= link_to refinery_icon_tag('application_go.png'),
+      <%= link_to '',
                   page.url,
                   :target => "_blank",
-                  :title => t('.view_live_html') %>
-      <%= link_to refinery_icon_tag('page_add.png'),
+                  title:  t('.view_live_html'),
+                  class: :preview_icon %>
+      <%= link_to '',
                   refinery.new_admin_page_path(:parent_id => page.id),
-                  :title => t('new', :scope => 'refinery.admin.pages') %>
+                  :title => t('new', :scope => 'refinery.admin.pages'),
+                  class: :add_icon %>
 
-      <%= link_to refinery_icon_tag('application_edit.png'),
+      <%= link_to '',
                   refinery.admin_edit_page_path(page.nested_url, :switch_locale => (page.translations.first.locale unless page.translated_to_default_locale?)),
-                  :title => t('edit', :scope => 'refinery.admin.pages') %>
+                  :title => t('edit', :scope => 'refinery.admin.pages'),
+                  class: :edit_icon %>
 
-      <%= link_to refinery_icon_tag('delete.png'),
+      <%= link_to '',
                   refinery.admin_delete_page_path(page.nested_url),
-                  :class => "cancel confirm-delete",
+                  :class => "cancel confirm-delete delete_icon",
                   :title => t('delete', :scope => 'refinery.admin.pages'),
                   :data => {
                     :confirm => t('message',

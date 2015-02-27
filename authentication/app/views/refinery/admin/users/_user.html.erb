@@ -6,12 +6,12 @@
     </span>
   </span>
   <span class='actions'>
-    <%= mail_to user.email, refinery_icon_tag('email_go.png'),
+    <%= mail_to user.email, icon('envelope'),
                 :title => t('.email_user') %>
-    <%= link_to refinery_icon_tag('application_edit.png'),
+    <%= link_to icon('pencil-square-o'),
                 refinery.edit_admin_user_path(user),
                 :title => t('edit', :scope => 'refinery.admin.users') if current_refinery_user.can_edit?(user) %>
-    <%= link_to refinery_icon_tag('delete.png'),
+    <%= link_to icon('minus-circle'),
                 refinery.admin_user_path(user),
                 :class => "cancel confirm-delete",
                 :title => t('delete', :scope => 'refinery.admin.users'),

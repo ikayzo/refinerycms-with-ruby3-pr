@@ -5,11 +5,11 @@
                 :id => "plugin_#{plugin.name}" %>
   <% end -%>
   <% if ::Refinery::Plugins.active.in_menu.many? -%>
-    <%= link_to refinery_icon_tag('arrow_up_down.png'), "",
+    <%= link_to icon('reorder'), "",
                 :id => "menu_reorder",
                 :title => t('.reorder_menu') %>
 
-    <%= link_to refinery_icon_tag('tick.png'), "",
+    <%= link_to icon('check-circle'), "",
                 :id => "menu_reorder_done",
                 :title => t('.reorder_menu_done'),
                 :style => "display: none;" %>
