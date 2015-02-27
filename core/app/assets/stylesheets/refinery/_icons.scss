@@ -15,7 +15,7 @@
 }
 
 // Any icon
-@mixin icon($icon-selector, $color: black, $padding: 4px, $size: 1.2em, $float: none) {
+@mixin icon($icon-selector, $color: #444, $padding: 4px, $size: 1.2em, $float: none) {
   @include icon-base($color, $size, $float) {
     @extend .fa-#{$icon-selector};
     &:before { margin-right: 0.3em!important; }
