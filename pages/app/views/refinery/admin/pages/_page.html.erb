@@ -28,19 +28,19 @@
     <% end %>
 
     <span class='actions'>
-      <%= link_to refinery_icon_tag('application_go.png'),
+      <%= link_to icon('eye'),
                   page.url,
                   :target => "_blank",
                   :title => t('.view_live_html') %>
-      <%= link_to refinery_icon_tag('page_add.png'),
+      <%= link_to icon('plus-circle'),
                   refinery.new_admin_page_path(:parent_id => page.id),
                   :title => t('new', :scope => 'refinery.admin.pages') %>
 
-      <%= link_to refinery_icon_tag('application_edit.png'),
+      <%= link_to icon('pencil-square-o'),
                   refinery.admin_edit_page_path(page.nested_url, :switch_locale => (page.translations.first.locale unless page.translated_to_default_locale?)),
                   :title => t('edit', :scope => 'refinery.admin.pages') %>
 
-      <%= link_to refinery_icon_tag('delete.png'),
+      <%= link_to icon('minus-circle'),
                   refinery.admin_delete_page_path(page.nested_url),
                   :class => "cancel confirm-delete",
                   :title => t('delete', :scope => 'refinery.admin.pages'),

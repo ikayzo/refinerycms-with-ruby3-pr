@@ -152,7 +152,8 @@ hr {
   }
 }
 .errorExplanation {
-  background: 7px 10px no-repeat image_url('refinery/icons/cancel.png') #FFB1B1;
+  @include icon('minus-circle', red);
+  background-color: #FFB1B1;
   padding: 0px 5px 5px 30px;
   font-weight: bold;
   margin-top: 5px;
@@ -687,7 +688,7 @@ label.stripped {
   min-height:16px;
   background-repeat:no-repeat;
   background-position:left;
-  @include icon('file-o')
+  @include icon('file-o', blue)
   // background-image: image_url('refinery/icons/folder_page_white.png');
 }
 #dialog_main #resource_file_area .pages_list ul li a.page_link{
@@ -777,7 +778,7 @@ label.stripped {
   width: 16px;
   height: 16px;
   margin: 3px 3px 0 0;
-  @include icon('file');
+  @include icon('file-o');
   // background: image_url('refinery/icons/page.png') center center no-repeat;
 
   &.toggle {
