@@ -4,7 +4,7 @@ ul {
       position: relative;
       span.arrow {
         background-repeat: no-repeat;
-        @include icon('sort-up');
+        // @extend .icon-sort-up;
         position: absolute;
         right: 10px;
         top: 13px;
@@ -13,7 +13,7 @@ ul {
         cursor: pointer;
       }
       &.closed span.arrow {
-        @include icon('sort-down');
+        // @extend .icon-sort-down;
       }
     }
     > div {

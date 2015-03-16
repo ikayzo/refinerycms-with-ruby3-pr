@@ -1,8 +1,8 @@
 @import 'mixins';
 @import 'colours';
-@import 'font-awesome-sprockets', 'font-awesome';
+// @import 'font-awesome-sprockets', 'font-awesome';
 @import 'icons';
-
+@import 'svg-icons/icons.data.svg';
 @import 'layout';
 @import 'site_bar';
 @import 'submenu';

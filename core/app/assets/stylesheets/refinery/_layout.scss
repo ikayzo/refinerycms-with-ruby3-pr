@@ -148,7 +148,7 @@ hr {
 .flash_notice, .flash_message {
   border: 1px solid #00A017;
   color: #00A017;
-  @include icon('check-circle', green)
+  @extend .icon-check-circle;
 }
 .flash_notice, .flash_notice * {
   color: #00A017;
@@ -156,11 +156,11 @@ hr {
 .flash_error, .flash_alert {
   border: 1px solid #A00027;
   color: #A00027;
-  @include icon('question-circle', red)
+  @extend .icon-question-circle;
 }
 .flash.flash_notice #flash_close, .flash.flash_error #flash_close, .flash.flash_alert #flash_close {
   text-transform: lowercase;
-  @include icon('times-circle', $icon_done_colour, 1.2em)
+  @extend .icon-times-circle;
 }
 .flash.flash_message {
   background: #E0F5E0;
@@ -654,14 +654,14 @@ label.stripped {
   min-height:16px;
   background-repeat:no-repeat;
   background-position:left;
-  @include icon('file-o', blue)
+  @extend .icon-file-o;
 }
 #dialog_main #resource_file_area .pages_list ul li a.page_link{
   background-position:5px center;
   display:block;
 }
 #records.files .record .title.pdf, #dialog_main #resource_file_area .pages_list ul li a.page_link.pdf {
-  @include icon('file-pdf-o')
+  @extend .icon-file-pdf-o;
 }
 #records.files .record .title.jpg,
 #records.files .record .title.gif,
@@ -673,23 +673,23 @@ label.stripped {
 #dialog_main #resource_file_area .pages_list ul li a.page_link.gif,
 #dialog_main #resource_file_area .pages_list ul li a.page_link.png,
 #dialog_main #resource_file_area .pages_list ul li a.page_link.tiff {
-  @include icon('file-image-o');
+  @extend .icon-file-image-o;
 }
 
 #records.files .record .title.doc, #records.files .record .title.pages, #records.files .record .title.docx, #dialog_main #resource_file_area .pages_list ul li a.page_link.doc, #dialog_main #resource_file_area .pages_list ul li a.page_link.docx, #dialog_main #resource_file_area .pages_list ul li a.page_link.pages {
-  @include icon('file-word-o');
+  @extend .icon-file-word-o;
 }
 #records.files .record .title.ppt, #records.files .record .title.keynote, #dialog_main #resource_file_area .pages_list ul li a.page_link.ppt, #dialog_main #resource_file_area .pages_list ul li a.page_link.keynote {
-  @include icon('file-powerpoint-o');
+  @extend .icon-file-powerpoint-o;
 }
 #records.files .record .title.xls, #records.files .record .title.numbers, #dialog_main #resource_file_area .pages_list ul li a.page_link.xls, #dialog_main #resource_file_area .pages_list ul li a.page_link.numbers {
-  @include icon('file-excel-o');
+  @extend .icon-file-excel-o;
 }
 #records.files .record .title.zip, #records.files .record .title.rar, #dialog_main #resource_file_area .pages_list ul li a.page_link.zip, #dialog_main #resource_file_area .pages_list ul li a.page_link.rar {
-  @include icon('file-zip-o');
+  // @extend .icon-file-zip-o;
 }
 #records.files .record .title.mp3, #records.files .record .title.wav, #records.files .record .title.aiff, #records.files .record .title.m4a, #dialog_main #resource_file_area .pages_list ul li a.page_link.mp3, #dialog_main #resource_file_area .pages_list ul li a.page_link.wav, #dialog_main #resource_file_area .pages_list ul li a.page_link.aiff, #dialog_main #resource_file_area .pages_list ul li a.page_link.m4a {
-  @include icon('file-audio-o');
+  @extend .icon-file-audio-o;
 }
 #records .actions {
   position: absolute;
@@ -736,18 +736,18 @@ label.stripped {
   width: 16px;
   height: 16px;
   margin: 3px 3px 0 0;
-  @include icon('file-o', $icon_page_colour);
+  @extend .icon-file-o;
 
   &.toggle {
     cursor: pointer;
-    @include icon('folder',$icon_folder_colour);
+    @extend .icon-folder;
   }
   &.toggle.expanded {
-    @include icon('folder-open',$icon_folder_colour);
+    @extend .icon-folder-open;
   }
 }
 #records.tree li.loading > div > span.icon {
-  @include icon('spinner');
+  @extend .icon-spinner;
 }
 #image_grid .actions a img {
   padding: 4px 4px 1px 4px;
@@ -954,7 +954,7 @@ body.dialog form {
   .pages_list .linked a, .pages_list .linked a:hover {
     border: 1px solid #00A017;
     color: #00A017;
-    @include icon('check-circle', green);
+    @extend .icon-check-circle;
   }
   .pages_list .linked a em {
     color: #00A017;
