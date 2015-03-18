@@ -5,13 +5,9 @@
                 :id => "plugin_#{plugin.name}" %>
   <% end -%>
   <% if ::Refinery::Plugins.active.in_menu.many? -%>
-    <%= link_to icon('reorder'), "",
-                :id => "menu_reorder",
-                :title => t('.reorder_menu') %>
 
-    <%= link_to icon('check-circle'), "",
-                :id => "menu_reorder_done",
-                :title => t('.reorder_menu_done'),
-                :style => "display: none;" %>
+    <%= action_icon :reorder, '', t('.reorder_menu'), id: :menu_reorder %>
+    <%= action_icon :reorder_done, '', t('.reorder_done'), id: :menu_reorder_done %>
+
   <% end %>
 </nav>
