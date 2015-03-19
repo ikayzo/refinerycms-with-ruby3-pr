@@ -3,12 +3,14 @@
 <%= form_for resource, :as => resource_name,
                        :url => refinery.refinery_user_session_path do |f| %>
   <div class='field session_username clearfix'>
-    <%= f.label :login %>
-    <%= f.text_field :login, :class => 'larger widest' %>
+    <%= #f.label :login
+    %>
+    <%= f.text_field :login, :class => 'larger widest', placeholder: 'Username' %>
   </div>
   <div class='field session_password clearfix'>
-    <%= f.label :password %>
-    <%= f.password_field :password, :autocomplete => 'off', :class => 'larger widest' %>
+    <%= #f.label :password
+    %>
+    <%= f.password_field :password, :autocomplete => 'off', :class => 'larger widest', placeholder: 'Password' %>
   </div>
   <div class='clearfix'>
     <% if devise_mapping.rememberable? %>
@@ -18,7 +20,7 @@
       </div>
     <% end %>
     <div class='field forgot_password'>
-      <%= link_to t('.forgot_password'), refinery.new_refinery_user_password_path %>
+      <%= link_to t('.forgot_password'), refinery.new_refinery_user_password_path, class: 'warning_icon button small secondary' %>
     </div>
   </div>
   <%= render '/refinery/admin/form_actions', :f => f,

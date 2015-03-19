@@ -4,13 +4,12 @@ var initialLoad = true;
 init_refinery_admin = function(){
   init_interface();
   init_flash_messages();
-  init_sortable_menu();
+  // init_sortable_menu();
   init_submit_continue();
   init_modal_dialogs();
   init_tooltips();
   init_ajaxy_pagination();
 };
-
 $(document).ready(init_refinery_admin);
 
 if(typeof(window.onpopstate) == "object"){
@@ -543,23 +542,22 @@ var page_options = {
 
     if (!this.initialised) {
       // set the page tabs up, but ensure that all tabs are shown so that when the visual editor loads it has a proper height.
-      page_options.tabs = $('#page-tabs').tabs();
 
-      part_shown = $('#page-tabs .page_part.field').not('.ui-tabs-hide');
-      $('#page-tabs .page_part.field').removeClass('ui-tabs-hide');
+      // visible_part = $('#page-tabs .page_part.field').not('.hidden');
+      // $('#page-tabs .page_part.field').removeClass('hidden');
 
       this.enable_parts = enable_parts;
       this.new_part_url = new_part_url;
       this.del_part_url = del_part_url;
       this.show_options();
 
-      $(document).ready($.proxy(function(){
-        // hide the tabs that are supposed to be hidden.
-        $('#page-tabs .page_part.field').not(this).addClass('ui-tabs-hide');
-      }, part_shown));
+      // $(document).ready($.proxy(function(){
+        // // hide the tabs that are supposed to be hidden.
+        // $('#page-tabs .page_part.field').not(this).addClass('hidden');
+      // }, part_shown));
 
       if(this.enable_parts){
-        this.page_part_dialog();
+        // this.page_part_dialog();
       }
       this.initialised = true;
     }

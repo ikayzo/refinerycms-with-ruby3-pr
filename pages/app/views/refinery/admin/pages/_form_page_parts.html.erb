@@ -12,21 +12,21 @@
   </ul>
 <% end %>
 
-<div id='page-tabs' class='clearfix ui-tabs ui-widget ui-widget-content ui-corner-all'>
-  <ul id='page_parts'>
+<div id='page-tabs' class='clearfix'>
+  <ul class="tabs" id='page_parts' data-tab role="tablist">
     <% @page.parts.each_with_index do |part, part_index| %>
-      <li class='ui-state-default<%= ' ui-state-active' if part_index == 0 %>' data-index='<%= part_index %>'>
+      <li class="tab-title <%= 'active' if part_index == 0 %>" role="presentational" >
         <%= link_to part.title, "##{@page.persisted? ? part.to_param : "page_part_new_#{part_index}"}" %>
       </li>
     <% end %>
     <% ::Refinery::Pages.tabs_for_template(@page.view_template).each_with_index do |tab, tab_index| %>
-      <li class='ui-state-default' id="custom_<%= tab.name %>_tab">
+      <li class='tab-title' id="custom_<%= tab.name %>_tab">
         <%= link_to tab.name.titleize, "#custom_tab_#{tab_index}" %>
       </li>
     <% end %>
   </ul>
 
-  <div id='page_part_editors'>
+  <div id='page_part_editors' class='tabs-content'>
     <% part_index = -1 %>
     <%= f.fields_for :parts do |p| %>
       <%= render 'page_part_field',
@@ -35,7 +35,7 @@
                  new_part: @page.new_record? -%>
     <% end %>
     <% ::Refinery::Pages.tabs_for_template(@page.view_template).each_with_index do |tab, tab_index| %>
-      <div class='page_part' id='<%= "custom_tab_#{tab_index}" %>'>
+      <div class='page_part content' id='<%= "custom_tab_#{tab_index}" %>'>
         <%= render tab.partial, f: f %>
       </div>
     <% end %>

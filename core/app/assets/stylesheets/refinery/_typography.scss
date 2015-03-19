@@ -1,0 +1,28 @@
+//  Only when needed to override foundation settings?
+
+p {
+
+}
+html {
+  height: 100%;
+}
+body {
+  height: 100%;
+  background: $body-bg;
+}
+acronym {
+  cursor: help;
+}
+label[for] {
+  cursor: pointer;
+}
+hr {
+
+}
+
+h1 {
+  background: $header-bg;
+}
+header h1 {
+  padding:20px;
+}

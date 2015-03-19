@@ -55,6 +55,7 @@
 .switch_view_list_icon {@include icon('list')}
 .upload_icon          {@include icon('upload');}
 .user_comment_icon    {@include icon('comment-o');}
+.warning_icon         {@include icon('warning', $icon_warning_colour)}
 //TODO insert, remove (see resource picker)
 // .locale_icon          {@include icon('comment', $icon_locale_colour);}
 

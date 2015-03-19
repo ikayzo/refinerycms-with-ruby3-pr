@@ -11,8 +11,12 @@ $icon_preview_colour: $icon_default_colour;
 // $icon_preview_colour: #7f00ff;   // violet
 $icon_locale_colour:  #b7e3fc;    // pale blue
 $icon_done_colour:    #00a017;  //
+$icon_warning_colour: orange;
 $info_icon_blue:      #316CC8;
 
 
 $action_background_colour: lighten($icon_locale_colour,10%);
 $action_border_colour: $icon_locale_colour;
+$body-bg: #d9d9d9;
+$page-bg: white;
+$header-bg: #eaeaea;

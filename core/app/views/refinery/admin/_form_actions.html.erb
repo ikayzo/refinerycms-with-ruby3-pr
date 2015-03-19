@@ -43,7 +43,7 @@
     <%= submit_tag submit_button_text,
                    :id => submit_button_id,
                    :name => nil,
-                   :class => "wymupdate button",
+                   :class => "wymupdate button info tiny",
                    :tooltip => submit_button_title unless hide_submit %>
 
     <%= render '/refinery/admin/continue_editing', :f => f if continue_editing -%>
@@ -54,7 +54,7 @@
     <%= link_to(cancel_button_text, cancel_url,
                 :title => cancel_title,
                 :id => cancel_button_id,
-                :class => "close_dialog button") unless hide_cancel %>
+                :class => "close_dialog button info tiny") unless hide_cancel %>
 
     <%= local_assigns[:after_cancel_button] -%>
   </div>
@@ -67,7 +67,7 @@
                 :data => {
                   :confirm => delete_confirmation
                 },
-                :class => "button confirm-delete") unless hide_delete %>
+                :class => "button confirm-delete tiny alert") unless hide_delete %>
     <%= local_assigns[:after_delete_button] -%>
   </div>
 </div>

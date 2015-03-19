@@ -1,7 +1,6 @@
 <% flash.each do |key, value| %>
-<div id='flash' class="flash flash_<%= key %>">
+<div 'data-alert class="alert-box <%= key %>">
   <%= value %>
-  <%= link_to t(".close#{'_this_message' if key.to_s == "message"}"), "",
-              :id => "flash_close" %>
+  <%= link_to '', "", :class => "flash_close" %>
 </div>
 <% end %>

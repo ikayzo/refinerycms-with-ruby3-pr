@@ -1,68 +1,80 @@
+// remove all specific css and just match items to equivalent foundation options
+
+
 $admin_width: 1080px;
 $menu_width: 120px;
+$login_width: 620px;
 $standard_rounding: 0px;
-$icon_colour: black;
 
-p {
-  font-size: 14px;
-  line-height: 18px;
+
+$row-width: rem-calc(1080);
+$column-gutter: rem-calc(0);
+$total-columns: 9 ;
+
+// layout of side-menu and page
+#admin_container {
+  @include grid-row();
+  header {@include grid-column(1)}
+  #page-container {@include grid-column(8)}
 }
-html {
-  height: 100%;
+
+//General typography
+
+
+// NB: foundation also provides a mixin element-invisible which makes an element visually hidden, but accessible.
+// @see http://snook.ca/archives/html_and_css/hiding-content-for-accessibility
+.hidden {
+  display: none;
 }
-body {
-  height: 100%;
-  margin: -52px 0;
-  padding: 52px 0 0;
-  box-sizing: border-box;
-  font-family: Arial, sans-serif;
-  line-height: 1.5em;
-  color: #41403C;
-  background: rgb(217, 217, 217);
-}
-acronym {
-  cursor: help;
-}
-label[for] {
-  cursor: pointer;
-}
+
+// Main containers
 #admin_container, #login_container {
-  font-size: 13px;
-  margin: 0px auto 15px auto;
-  text-align: left;
-
-  a {
-    color: #41403C;
-    text-decoration: none;
-  }
-  a:hover {
-    text-shadow:1px 1px 1px rgba(0, 0, 0, 0.3)
-  }
-
-  @include rounded($standard_rounding);
   position: relative;
   margin-top: 15px;
-  #menu {
-    a:hover {
-      border-bottom: 0px;
-    }
+  margin-left: auto;
+  margin-right: auto;
+  a {
+    text-decoration: none;
+    &::hover {text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3)}
   }
 
-  .hidden {
-    display: none;
+}
+
+#login_container {
+  @extend .panel;
+  width: $login_width;
+
+  #page_container {
+    width: 100%;
+    .field {
+      a, input, label {margin:0}
+      &.forgot_password {
+        float:right;
+        text-align: right;
+      }
+      &.remember_me {
+        float:left;
+      }
+    }
+    /* Works in Firefox, Safari, Chrome, IE8+ */
+    input.larger {
+      height: 31px;
+    }
+    .fieldWithErrors input.larger {
+    }
   }
 }
-#login_container {
-  background: white;
-  width: 620px;
-}
+//  End of #login_container
+
+
 #admin_container {
-  @include faux_columns_2($menu_width, transparent, white);
   width: $admin_width;
-  margin: -5px auto 0px auto;
   height: 100%;
 }
+//  End of #admin_container
+
 #page_container {
+  // @extend .panel;
   @include box-sizing(border-box);
   @include right-rounded($standard_rounding);
   background-color: white;
@@ -70,119 +82,112 @@ label[for] {
   position: relative;
   float: left;
   width: $admin_width - $menu_width;
+  header {
+    width: 100%;
+    @include top-rounded($standard_rounding);
+    h1 { text-align: center; }
+  }
 }
+//  End of #page_container
+
+
 #content .field, #content .form-actions {
-  position: relative;
+  // position: relative;
 }
 #dialog_container #content .field, .dialog_container .field {
-  width: auto;
-  margin: 5px 0;
+  // width: auto;
+  // margin: 5px 0;
 }
 input.widest, textarea.widest {
-  width: 99%;
+  // width: 99%;
 }
 select.widest {
-  max-width: 99%;
+  // max-width: 99%;
 }
 #records {
-  float: left;
-  width: 67.7%;
+  // float: left;
+  // width: 67.7%;
 }
 #actions {
   float: right;
-  width: 30%;
-  padding-left: 15px;
-  padding-top: 0px;
   ul {
-    margin: 0px 0px 18px 0px;
-    padding: 0;
-    list-style: none;
-    &#current_locale {
-      margin-top: 30px;
-    }
-  }
-  li {
-    margin-bottom: 10px;
-    background-color: $action-background-colour;
-    border: 1px solid $action-border-colour;
-    padding: 9px;
-    display: block;
-
+    &#current_locale {}
+  li { }
   }
 }
 #sort-status {
-  padding: 5px 5px 5px 0px;
-}
-hr {
-  border: 0;
-  border-top: 1px solid #484743;
+  // padding: 5px 5px 5px 0px;
 }
 
+
 .errorExplanation {
-  background-color: #FFB1B1;
-  padding: 0px 5px 5px 30px;
-  font-weight: bold;
-  margin-top: 5px;
-  margin-bottom: 5px;
-  border: 1px solid red;
+  // background-color: #FFB1B1;
+  // padding: 0px 5px 5px 30px;
+  // font-weight: bold;
+  // margin-top: 5px;
+  // margin-bottom: 5px;
+  // border: 1px solid red;
   h2 {
-    color: red;
-    text-transform: none;
-    display: none;
+    // color: red;
+    // text-transform: none;
+    // display: none;
   }
-  p {
-    font-weight: normal;
-  }
+  // p {
+    // font-weight: normal;
+  // }
 }
+
 .fieldWithErrors input, .fieldWithErrors textarea {
-  border: 1px solid red !important;
-  background-color: #FFECF0 !important;
+  @extend .alert;
 }
 .fieldWithErrors iframe, .fieldWithErrors .visual_editor_box {
-  border-color: red !important;
+  @extend .alert;
 }
-#message, .flash {
-  padding: 8px 8px 8px 30px;
-  margin-bottom: 15px;
-  position: relative;
-}
-.flash_notice, .flash_message {
-  border: 1px solid #00A017;
-  color: #00A017;
-  @include icon('check-circle', green)
-}
-.flash_notice, .flash_notice * {
-  color: #00A017;
-}
-.flash_error, .flash_alert {
-  border: 1px solid #A00027;
-  color: #A00027;
-  @include icon('question-circle', red)
-}
-.flash.flash_notice #flash_close, .flash.flash_error #flash_close, .flash.flash_alert #flash_close {
-  text-transform: lowercase;
-  @include icon('times-circle', $icon_done_colour, 1.2em)
-}
-.flash.flash_message {
-  background: #E0F5E0;
-  padding: 9px;
-  position: relative;
-  margin-bottom: 32px;
-  h2 {
-    margin-top: 12px;
+
+#flash_container {  // , .error_explanation
+  // @include panel();
+
+  // .flash {@include alert(); @extend .alert;}
+
+  .notice, .flash_message {
+    @extend .info;
+    @include icon('check-circle', green)
   }
+
+  .flash_notice, .flash_notice * {
+  }
+  .flash_error, .flash_alert {
+    @extend .alert;
+    @include icon('question-circle', red)
+  }
+  .flash_close {
+    position: absolute;
+    right:0;
+    top:0;
+    @include icon('times-circle', white, 1.2em)
+  }
+
+.flash.flash_message {
+  // background: #E0F5E0;
+  // padding: 9px;
+  // position: relative;
+  // margin-bottom: 32px;
+  // h2 {
+    // margin-top: 12px;
+  // }
 }
 .flash.flash_message.flash_message, .flash_message * {
-  color: #262719;
-  font-size: 14px;
+  // color: #262719;
+  // font-size: 14px;
 }
 .flash a, .flash a:hover {
-  color: #e20003;
-  border-bottom-color: #e20003;
+  // color: #e20003;
+  // border-bottom-color: #e20003;
 }
-.flash.flash_error a, .flash.flash_error a:hover,
-.flash.flash_alert a, .flash.flash_alert a:hover {
-  display: none;
+// .flash.flash_error a, .flash.flash_error a:hover,
+// .flash.flash_alert a, .flash.flash_alert a:hover {
+  // display: none;
+// }
 }
 
 noscript .flash.flash_error a, noscript .flash.flash_error a:hover,
@@ -190,146 +195,72 @@ noscript .flash.flash_alert a, noscript .flash.flash_alert a:hover {
   display: inline;
   font-weight: bold;
 }
+
 .flash a#flash_close {
-  position: absolute;
-  right: 9px;
-  top: 7px;
+  @extend .close;
 }
 
 #content .visual_editor_box a, #content .ui-tabs a {
-  border-bottom: 0px none;
+  // border-bottom: 0px none;
 }
 .index #content, .splash #content {
-  background-color: white;
-  background-repeat: repeat-y;
+  // background-color: white;
+  // background-repeat: repeat-y;
 }
 #content {
   padding: 0px;
-  a {
-    border-bottom: 1px dotted #727272;
-    &.locale {
-      border-bottom: 0;
-      display:inline;
-    }
+  // a {
+    // border-bottom: 1px dotted #727272;
+    // &.locale {
+      // border-bottom: 0;
+      // display:inline;
+    // }
   }
   h1 {
-    font-size: 18px;
-    font-weight: lighter;
-    text-align: center;
-    border-bottom: 1px solid #99998B;
-    padding-bottom: 10px;
+    // font-size: 18px;
+    // font-weight: lighter;
+    // text-align: center;
+    // border-bottom: 1px solid #99998B;
+    // padding-bottom: 10px;
   }
   h2 {
-    font-size: 18px;
-    color:#41403c;
-    margin-bottom: 15px;
-    margin-top: 10px;
-    font-weight: bold;
+    // font-size: 18px;
+    // color:#41403c;
+    // margin-bottom: 15px;
+    // margin-top: 10px;
+    // font-weight: bold;
   }
   form.edit_image {
-    width: 70%;
-    float: left;
+    // width: 70%;
+    // float: left;
   }
   #existing_image {
-    float: right;
-    width: 25%;
+    // float: right;
+    // width: 25%;
   }
   .actions {
     a {
-      display: block;
-      float: right;
-      margin: 3px 3px;
-      line-height: inherit;
-      border-bottom: 0px none;
+      // display: block;
+      // float: right;
+      // margin: 3px 3px;
+      // line-height: inherit;
+      // border-bottom: 0px none;
     }
   }
-}
 .less-important {
-  color: #727272;
+  // color: #727272;
 }
-#content {
-  background-color: white;
-}
-header, footer, nav {
-  display: block;
-}
+// #content {
+  // background-color: white;
+// }
+// header, footer, nav {
+  // display: block;
+// }
+nav {display:block;}
+
 #page_container .login #page h1 {
-  margin: 0;
-  padding: 5px;
-  font-size: 20px;
-  line-height:22px
 }
-#login_container {
-  #page_container {
-    background: transparent;
-    width: 100%;
-    div.remember_me label, label.inline {
-      display: inline;
-    }
-    div.actions {
-      margin-top: 12px;
-    }
-    div.remember_me {
-      width: 300px;
-      float: left;
-    }
-    div.forgot_password {
-      float: right;
-      width: 250px;
-    }
-  }
-  header {
-    background: #eaeaea;
-    height: auto;
-    float: none;
-    width: 100%;
-    @include top-rounded($standard_rounding);
-    h1 {
-      color: #41403c;
-      vertical-align: middle;
-      text-align: center;
-      font-weight: bold;
-      font-size: 18px;
-      padding-bottom: 15px;
-      line-height: 30px;
-      padding-top: 15px;
-    }
-  }
-  label {
-    margin-top: 0px;
-  }
-  label, a {
-    font-size: 14px;
-  }
-  .field {
-    margin-bottom: 20px;
-    &.remember_me, &.forgot_password {
-      margin-bottom: 0px;
-      margin-top: 0px;
-    }
-    &.forgot_password {
-      text-align: right;
-    }
-    &.remember_me label {
-      margin-top: 20px;
-    }
-  }
-  #flash_container, .errorExplanation {
-    margin-bottom: 12px;
-  }
-  /* Works in Firefox, Safari, Chrome, IE8+ */
-  input.larger {
-    background: image_url('refinery/text_field_background.png') repeat-x white;
-    height: 31px;
-  }
-  input.larger:focus {
-    background-position: 0px -41px;
-  }
-  .fieldWithErrors input.larger {
-    background-position: 0px -82px;
-    border: 1px solid red;
-  }
-}
+
 div.field.checkbox_access {
   margin-top: 20px;
   ul.checkboxes li {
@@ -339,42 +270,13 @@ div.field.checkbox_access {
     font-weight: normal;
   }
 }
-#menu, {
+
+#menu {
   display: block;
   margin: 45px 0px 0px 0px;
   padding: 0px;
   position: absolute;
   background: transparent;
-}
-header {
-  float: left;
-  margin-bottom: 0px;
-  width: $menu_width;
-  a, a:hover {
-    border-bottom: 0px none;
-  }
-  #logo {
-    position: absolute;
-    right: 20px;
-    top: 25px;
-  }
-  h1, h1 a {
-    color: white;
-    font-size: 20px;
-    font-weight: normal;
-    margin-bottom: 0;
-    padding-bottom: 4px;
-    margin-top: 0;
-  }
-  p {
-    color: white;
-    font-size: 90%;
-    padding: 0;
-    margin: 0;
-  }
-}
-#menu {
-  display: block;
   position: relative;
   &.ui-sortable a {
     cursor: move;
@@ -402,6 +304,35 @@ header {
     }
   }
 
+
+header {
+  float: left;
+  margin-bottom: 0px;
+  width: $menu_width;
+  a, a:hover {
+    border-bottom: 0px none;
+  }
+  #logo {
+    position: absolute;
+    right: 20px;
+    top: 25px;
+  }
+  h1, h1 a {
+    // color: white;
+    // font-size: 20px;
+    // font-weight: normal;
+    // margin-bottom: 0;
+    // padding-bottom: 4px;
+    // margin-top: 0;
+  }
+  p {
+    color: white;
+    // font-size: 90%;
+    // padding: 0;
+    // margin: 0;
+  }
+}
+
   a#menu_reorder,
   a#menu_reorder_done {
     height: 14px;
@@ -420,19 +351,19 @@ header {
 }
 
 pre {
-  margin: 0;
-  padding: 0;
+  // margin: 0;
+  // padding: 0;
 }
 .preview {
-  color: #A3A093;
+  // color: #A3A093;
 }
 #site_link {
   display: block;
-  color: #C2C2B3;
-  float: left;
+  // color: #C2C2B3;
+  // float: left;
 }
 #site_link:hover {
-  text-decoration: underline;
+  // text-decoration: underline;
 }
 .filter {
   float: right;
@@ -584,6 +515,7 @@ pre {
     background: #A8B9C1;
   }
 }
+
 #dialog-form-actions .pagination {
   margin: -4px 6px -4px 0px;
   float: right;
@@ -1009,7 +941,7 @@ form input[type=submit]:hover {
 .clearfix:after {
   content:".";
   display:block;
-  height:0;
+  // height:0;
   clear:both;
   visibility:hidden;
 }
@@ -1075,7 +1007,10 @@ ul#page_parts_controls img {
   display: none;
 }
 #content .form-actions, .wym_dialog .form-actions, .ui-dialog .form-actions {
-  @include form-actions;
+  @include panel($padding:3px);
+  display: inline-block;
+  width: 100%;
+  input.button {margin:0}
 }
 .dialog form {
   margin-bottom: 45px;
@@ -1089,14 +1024,18 @@ ul#page_parts_controls img {
 #content .form-actions .form-actions-left, #content .form-actions .form-actions-right,
   .visual_editor_dialog .form-actions .form-actions-left, .visual_editor_dialog .form-actions .form-actions-right,
   .ui-dialog .form-actions .form-actions-left, .ui-dialog .form-actions .form-actions-right {
-  position: absolute;
-  top: 10px;
+  // position: absolute;
+  // top: 10px;
 }
 #content .form-actions .form-actions-left, .visual_editor_dialog .form-actions .form-actions-left, .ui-dialog .form-actions .form-actions-left {
-  left: 10px;
+  float: left;
+  // position: absolute;
+  // top:0;
+  // left:0;
+  // left: 10px;
 }
 #content .form-actions .form-actions-right, .visual_editor_dialog .form-actions .form-actions-right, .ui-dialog .form-actions .form-actions-right {
-  right: 10px;
+  // right: 10px;
 }
 #content .form-actions .save-loader {
   position: absolute;
@@ -1111,14 +1050,14 @@ ul#page_parts_controls img {
   position: relative;
 }
 #dialog_container #content .form-actions, .ui-dialog .form-actions, .dialog_container .form-actions {
-  position: absolute;
-  bottom: 0px;
-  left: 0px;
-  right: 0px;
-  border-right: 0px;
-  border-left: 0px;
-  border-bottom: 0px;
-  width: auto;
+  // position: absolute;
+  // bottom: 0px;
+  // left: 0px;
+  // right: 0px;
+  // border-right: 0px;
+  // border-left: 0px;
+  // border-bottom: 0px;
+  // width: auto;
 }
 #dialog_container.dialog.iframed #content .form-actions {
   position: fixed;
@@ -1243,17 +1182,17 @@ ul.checkboxes li {
   height: 300px;
 }
 input.button, a.button, #content a.button, span.button-wrapper, span.button-wrapper input {
-  cursor:pointer;
-  background: #22a7f2;
-  color: white;
-  padding: 0px 14px 0px 14px;
-  font-size: 14px;
-  line-height: 24px;
-  height: 24px;
-  display: inline-block;
-  border: 0px none;
-  margin-top: 0px;
-  margin-bottom: 0px;
+  // cursor:pointer;
+  // background: #22a7f2;
+  // color: white;
+  // padding: 0px 14px 0px 14px;
+  // font-size: 14px;
+  // line-height: 24px;
+  // height: 24px;
+  // display: inline-block;
+  // border: 0px none;
+  // margin-top: 0px;
+  // margin-bottom: 0px;
 }
 /* for those pesky IE browsers */
 span.button-wrapper {
@@ -1264,22 +1203,22 @@ span.button-wrapper input {
 }
 /* fixes firefox display */
 input.button {
-  padding-bottom: 3px;
+  // padding-bottom: 3px;
 }
 input.button.close_dialog, a.button.close_dialog, #content a.button.close_dialog, span.button-wrapper.close_dialog, span.button-wrapper.close_dialog input {
-  background: #bcbcbc;
+  // background: #bcbcbc;
 }
 input.button:hover, a.button:hover, #content a.button:hover, span.button-wrapper:hover, span.button-wrapper:hover input {
-  background:#62bef2;
+  // background:#62bef2;
 }
 input.button.close_dialog:hover, a.button.close_dialog:hover, #content a.button.close_dialog:hover, span.button-wrapper.close_dialog:hover {
-  background: #cdcdcd;
+  // background: #cdcdcd;
 }
 input.button:active, a.button:active, #content a.button:active, span.button-wrapper:active, span.button-wrapper:active input {
-  background: #004a8f;
+  // background: #004a8f;
 }
 input.button.close_dialog:active, a.button.close_dialog:active, #content a.button.close_dialog:active, span.button-wrapper.close_dialog:active,  span.button-wrapper.close_dialog:active input {
-  background: #808080;
+  // background: #808080;
 }
 .visual_editor_dialog a.button.visual_editor_cancel.close_dialog {
   margin-left: 6px;
