@@ -1,32 +1,3 @@
-// remove all specific css and just match items to equivalent foundation options
-
-
-$admin_width: 1080px;
-$menu_width: 120px;
-$login_width: 620px;
-$standard_rounding: 0px;
-
-
-$row-width: rem-calc(1080);
-$column-gutter: rem-calc(0);
-$total-columns: 9 ;
-
-// layout of side-menu and page
-#admin_container {
-  @include grid-row();
-  header {@include grid-column(1)}
-  #page-container {@include grid-column(8)}
-}
-
-//General typography
-
-
-// NB: foundation also provides a mixin element-invisible which makes an element visually hidden, but accessible.
-// @see http://snook.ca/archives/html_and_css/hiding-content-for-accessibility
-.hidden {
-  display: none;
-}
-
 // Main containers
 #admin_container, #login_container {
   position: relative;
@@ -40,12 +11,12 @@ $total-columns: 9 ;
 
 }
 
+
 #login_container {
   @extend .panel;
   width: $login_width;
 
   #page_container {
-    width: 100%;
     .field {
       a, input, label {margin:0}
       &.forgot_password {
@@ -68,22 +39,17 @@ $total-columns: 9 ;
 
 
 #admin_container {
-  width: $admin_width;
   height: 100%;
 }
 //  End of #admin_container
 
 #page_container {
-  // @extend .panel;
-  @include box-sizing(border-box);
-  @include right-rounded($standard_rounding);
   background-color: white;
   padding: 1.5em 1em;
   position: relative;
   float: left;
-  width: $admin_width - $menu_width;
+
   header {
-    width: 100%;
     @include top-rounded($standard_rounding);
     h1 { text-align: center; }
   }
@@ -108,13 +74,7 @@ select.widest {
   // float: left;
   // width: 67.7%;
 }
-#actions {
-  float: right;
-  ul {
-    &#current_locale {}
-  li { }
-  }
-}
+
 #sort-status {
   // padding: 5px 5px 5px 0px;
 }
@@ -285,7 +245,6 @@ div.field.checkbox_access {
     cursor: pointer;
   }
   a {
-    @include box-sizing(border-box);
     display: block;
     padding: 8px 16px;
     font-size: 14px;
@@ -308,7 +267,6 @@ div.field.checkbox_access {
 header {
   float: left;
   margin-bottom: 0px;
-  width: $menu_width;
   a, a:hover {
     border-bottom: 0px none;
   }
@@ -396,9 +354,9 @@ pre {
   text-overflow: ellipsis;
 }
 #content #records {
-  > ul li .actions a, .pagination_container > ul li .actions a {
-    line-height: 29px;
-  }
+  // > ul li .actions a, .pagination_container > ul li .actions a {
+    // line-height: 29px;
+  // }
 }
 #records {
   ul {
@@ -417,20 +375,7 @@ pre {
       }
     }
   }
-  .left-column {
-    float: left;
-    width: 65%;
-    img {
-      vertical-align: bottom;
-      margin-top: 1px;
-      margin-right: 5px;
-    }
-  }
-  .right-column {
-    float: right;
-    width: 34%;
-    text-align: right;
-  }
+
   .on {
     background-color: #EAEAEA;
   }
@@ -442,13 +387,6 @@ pre {
   }
   ul#sortable_list, ul.sortable_list {
     margin-top: 6px;
-  }
-  > #recent_activity, > #recent_inquiries {
-    float: left;
-    width: 48%;
-  }
-  > #recent_inquiries {
-    margin-left: 21px;
   }
 }
 #records.one_list > #recent_activity, #records.one_list > #recent_inquiries {
@@ -578,7 +516,7 @@ label.stripped {
   width: 99%;
 }
 .record .title span {
-  line-height: 30px;
+  // line-height: 30px;
 }
 
 #records.files .record .title, #dialog_main #resource_file_area .pages_list ul li a.page_link {
@@ -912,11 +850,11 @@ ul#menu.reordering_menu li a {
   cursor: move;
 }
 #search {
-  border: 1px solid #b3b3b3;
-  line-height: 18px;
-  padding: 2px;
-  font-size: 16px;
-  width: 10em;
+  // border: 1px solid #b3b3b3;
+  // line-height: 18px;
+  // padding: 2px;
+  // font-size: 16px;
+  // width: 10em;
 }
 .cancel-search {
   float: right;
@@ -1501,36 +1439,3 @@ a.information:hover {
   background-color: #62cffc;
 }
 
-/* Internet Explorer to follow: */
-/* IE 7 */
-.ie7 #content .form-actions .form-actions-left a.button {
-  height: 19px;
-  line-height: 19px;
-  padding-top: 3px;
-  padding-bottom: 3px;
-}
-.ie7 .search_form input.button {
-  padding-left: 8px;
-  padding-right: 8px;
-}
-.ie7 body.login .field input.larger, .ie7 body.login .field input.larger:focus {
-  background-image: none !important;
-  padding: 0px;
-  line-height: 30px;
-}
-.ie7 .pagination a, .ie7 #content .pagination a, .ie7 .pagination .current, .ie7 .disabled, .ie7 .pagination em {
-  padding-bottom: 6px;
-}
-.ie7 .pt-BR #search {
-  width: 97px;
-}
-.ie7 .en #search {
-  width: 170px;
-}
-/* IE 8 */
-.ie8 body.login .field input.larger, .ie8 body.login .field input.larger:focus {
-  line-height: 30px;
-}
-.ie8 .pagination a, .ie8 #content .pagination a, .ie8 .pagination .current, .ie8 .disabled, .ie8 .pagination em {
-  padding-bottom: 6px;
-}

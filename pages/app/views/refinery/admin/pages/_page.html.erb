@@ -8,8 +8,8 @@
           }
  %>
 
-  <li class='clearfix record items' id="<%= dom_id(page) -%>">
-  <div class='clearfix'>
+  <li class='record items' id="<%= dom_id(page) -%>">
+  <div>
     <% if page.children.present? %>
       <span class="item toggle <%= 'expanded' if Refinery::Pages.auto_expand_admin_tree %>" title="<%= t('expand_collapse')%>"></span>
     <% else %>

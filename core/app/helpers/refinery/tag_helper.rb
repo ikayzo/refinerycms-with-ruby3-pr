@@ -35,7 +35,7 @@ module Refinery
       when :delete
         options[:method] = :delete
       when :reorder_done
-        options[:class] << ' hidden'
+        options[:class] << ' hide'
       end
       link_to(label && title || '', url, options)
     end
