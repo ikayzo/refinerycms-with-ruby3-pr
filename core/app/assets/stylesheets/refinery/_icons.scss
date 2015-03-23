@@ -44,11 +44,11 @@
 .reorder_done_icon    {@include icon('thumbs-o-up')}
 .reorder_h_icon       {@include icon('exchange');}
 .reorder_icon         {@include icon('unsorted');}
-.reorder_icon.loading {@include icon('spinner');}
-.search_icon          {@include icon('search', white);}
-.settings_icon        {@include icon('gear');}
-.sortdown_icon        {@include icon('sort-down');}
-.sortup_icon          {@include icon('sort-up');}
+.reorder_icon.loading {@include icon('spinner')}
+.search_icon          {@include icon('search')}
+.settings_icon        {@include icon('gear')}
+.sortdown_icon        {@include icon('sort-down')}
+.sortup_icon          {@include icon('sort-up')}
 .spam_empty_icon      {@include icon('trash-o');}
 .spam_icon            {@include icon('trash');}
 .success_icon         {@include icon('check');}
@@ -56,7 +56,6 @@
 .switch_view_list_icon {@include icon('list')}
 .upload_icon          {@include icon('upload');}
 .user_comment_icon    {@include icon('comment-o');}
-.warning_icon         {@include icon('warning', $icon_warning_colour)}
 //TODO insert, remove (see resource picker)
 // .locale_icon          {@include icon('comment', $icon_locale_colour);}
 
@@ -79,3 +78,6 @@
 // don't want underlines on icons
 #content a[class$='icon'] {border-bottom: none}
 #content a[class$='icon']:hover {border-bottom: none}
+
+// hover effect on icons
+#content a[class$='_icon']:hover:before {font-size: 1.3rem;}
