@@ -17,9 +17,7 @@ file system, you'll need an additional gem. Create a bucket called "my_app_produ
 and add this line in your Gemfile:
 
 <ruby>
-group :production do
-  gem 'dragonfly-s3_data_store'
-end
+  gem 'fog'
 </ruby>
 
 h3. Telling Refinery to use S3
@@ -54,7 +52,8 @@ ENV['S3_BUCKET']='fill_in_your_bucket_name_here'
 
 (Note: For Heroku, you should use "config vars to set your environment variables":http://refinerycms.com/guides/heroku)
 
-Another option, especially if you experience `Dragonfly::DataStorage::S3DataStore` exceptions, is to configure your Amazon S3 credentials in +config/initializers/refinery/core.rb+ using the following syntax:
+Another option, expecially if you experience Dragonfly::DataStorage::S3DataStore exceptions, is to configure 
+your Amazon S3 credential using the following syntax:
 
 <ruby>
 Refinery::Core.configure do |config|
