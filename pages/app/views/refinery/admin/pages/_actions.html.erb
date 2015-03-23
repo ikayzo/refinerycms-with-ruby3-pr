@@ -7,8 +7,8 @@
   </li>
 <% if @pages.many? and !searching? %>
   <li>
-    <%= action_label :reorder, refinery.admin_pages_path, t('.reorder_pages'), id: 'reorder_action'%>
-    <%= action_label :reorder_done, refinery.admin_pages_path, t('.reorder_pages_done'), id: 'reorder_action_done', class: 'hidden'%>
+    <%= action_label :reorder, refinery.admin_pages_path, t('.reorder_pages'), id: :reorder_action %>
+    <%= action_label :reorder_done, refinery.admin_pages_path, t('.reorder_pages_done'), id: :reorder_action_done, class: 'hide'%>
   </li>
 <% end %>
 </ul>

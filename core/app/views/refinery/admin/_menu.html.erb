@@ -1,9 +1,11 @@
 <nav id="menu">
   <ul class='side-nav'>
   <% ::Refinery::Plugins.active.in_menu.each do |plugin| -%>
-    <%= link_to plugin.title, refinery.url_for(plugin.url),
-                :class => ("active" if plugin.highlighted?(params)),
-                :id => "plugin_#{plugin.name}" %>
+    <li>
+      <%= link_to plugin.title, refinery.url_for(plugin.url),
+                  :class => ("active" if plugin.highlighted?(params)),
+                  :id => "plugin_#{plugin.name}" %>
+    </li>
   <% end -%>
   </ul>
   <% if ::Refinery::Plugins.active.in_menu.many? -%>
