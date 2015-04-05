@@ -1,4 +1,4 @@
-<div id='new_page_part_dialog' style='display: none'>
+<div id='new_page_part_dialog' class='reveal-modal' data-reveal aria-labelledby='modalTitle' aria-hidden='true' role='dialog'>
   <div class='field'>
     <label for='new_page_part_title'><%= t('.title')  %></label>
     <input id='new_page_part_title' value='' class='larger widest' />
@@ -6,7 +6,9 @@
   </div>
   <%= render '/refinery/admin/form_actions', :f => f,
              :continue_editing => false,
-             :submit_button_id => "new_page_part_save",
-             :cancel_button_id => "new_page_part_cancel",
+             :submit_button_id => 'new_page_part_save',
+             :cancel_button_id => 'new_page_part_cancel',
              :hide_delete => true %>
+  <a class='close-reveal-modal close_icon' aria-label='Close'></a>
 </div>
+
