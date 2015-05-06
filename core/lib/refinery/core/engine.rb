@@ -85,7 +85,6 @@ module Refinery
         # scripts
         Rails.application.config.assets.precompile += %w(
           refinery/*.js
-          refinery/icons/*
           modernizr-min.js
           admin.js
         )
@@ -96,10 +95,12 @@ module Refinery
           refinery/formatting.css
           refinery/site_bar.css
           refinery/theme.css
+          wymiframe.css
         )
 
         # images
         Rails.application.config.assets.precompile += %w(
+          refinery/icons/*
           refinery/images/*
         )
 
