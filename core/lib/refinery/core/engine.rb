@@ -95,7 +95,6 @@ module Refinery
           refinery/formatting.css
           refinery/site_bar.css
           refinery/theme.css
-          wymeditor/skins/refinery/skin.css
         )
 
         # images
