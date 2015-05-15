@@ -15,7 +15,6 @@ module Refinery
             datastore :file, {
               :root_path => Refinery::Resources.datastore_root_path
             }
-            url_format Refinery::Resources.dragonfly_url_format
             url_host Refinery::Resources.dragonfly_url_host
             secret Refinery::Resources.dragonfly_secret
             response_header 'Content-Disposition' do |job, request, headers|
