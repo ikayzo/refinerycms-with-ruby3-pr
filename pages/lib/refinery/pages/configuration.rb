@@ -48,6 +48,7 @@ module Refinery
     self.friendly_id_reserved_words = %w(
       index new session login logout users refinery admin images
     )
+    self.layout_templates_pattern = 'app', 'views', '{layouts,refinery/layouts}', '*html*'
     self.view_templates_pattern = 'app', 'views', '{pages,refinery/pages}', '*html*'
   end
 end

@@ -83,7 +83,7 @@ module Refinery
       end
 
       def valid_view_templates
-        Pages.valid_templates(*Pages.view_templates_pattern)
+        Pages.layout_template_whitelist & Pages.valid_templates(*Pages.view_templates_pattern)
       end
 
       def page_params
