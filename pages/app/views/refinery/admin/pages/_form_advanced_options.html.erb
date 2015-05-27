@@ -25,11 +25,6 @@
         <%= f.label :view_template, t('.view_template') %>
         <%= refinery_help_tag t('.view_template_help') %>
       </span>
-      <% Rails.logger.debug "........................"
-         valid_view_templates.each do |temp|
-           Rails.logger.debug temp
-         end
-      %>
       <%= f.select :view_template, valid_view_templates.map { |t| [t.titleize, t] },
                    template_options(:view_template, @page) %>
     </div>
