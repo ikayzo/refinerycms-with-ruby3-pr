@@ -83,7 +83,6 @@ module Refinery
       end
 
       def valid_view_templates
-        Rails.logger.debug "- - - - - #{Pages.view_templates_pattern}"
         Pages.valid_templates(*Pages.view_templates_pattern)
       end
 
