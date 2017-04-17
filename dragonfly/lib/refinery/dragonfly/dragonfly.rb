@@ -28,7 +28,7 @@ module Refinery
 
           response_header extension.dragonfly_response_header
 
-          verify_urls extension.dragonfly_verify_urls unless extension.dragonfly_verify_urls
+          verify_urls extension.dragonfly_verify_urls
 
           #  These options require a name and block
           define_url extension.dragonfly_define_url if extension.dragonfly_define_url.present?

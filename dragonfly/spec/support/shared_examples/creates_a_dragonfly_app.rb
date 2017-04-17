@@ -10,19 +10,19 @@ shared_examples_for 'Creates a dragonfly App:' do
   describe 'app configuration' do
     # These are just some of the configuration parameters which can be passed to Dragonfly
     it 'sets the datastore_root_path' do
-      expect(Dragonfly::app(described_class.dragonfly_name).datastore.root_path).to eq(described_class.dragonfly_datastore_root_path)
+      expect(Dragonfly.app(described_class.dragonfly_name).datastore.root_path).to eq(described_class.dragonfly_datastore_root_path)
     end
 
     it 'sets the url host' do
-      expect(Dragonfly::app(described_class.dragonfly_name).server.url_host).to eq(described_class.dragonfly_url_host)
+      expect(Dragonfly.app(described_class.dragonfly_name).server.url_host).to eq(described_class.dragonfly_url_host)
     end
 
     it 'sets the url format' do
-      expect(Dragonfly::app(described_class.dragonfly_name).server.url_format).to eq(described_class.dragonfly_url_format)
+      expect(Dragonfly.app(described_class.dragonfly_name).server.url_format).to eq(described_class.dragonfly_url_format)
     end
 
     it 'sets verify_urls' do
-      expect(Dragonfly::app(described_class.dragonfly_name).server.verify_urls).to eq(described_class.dragonfly_verify_urls)
+      expect(Dragonfly.app(described_class.dragonfly_name).server.verify_urls).to eq(described_class.dragonfly_verify_urls)
     end
 
   end
