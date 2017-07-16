@@ -7,7 +7,7 @@ sk:
     admin:
       images:
         delete: Zmazať tento obrázok
-        edit: Upraviť tento obrázok
+        edit: Upraviť tento obrázok %{title}
         form:
           image: Obrázok
           use_current_image: Použiť vybraný obrázok

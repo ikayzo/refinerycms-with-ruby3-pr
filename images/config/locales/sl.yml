@@ -6,7 +6,7 @@ sl:
     admin:
       images:
         delete: Odstrani sliko
-        edit: Uredi sliko
+        edit: Uredi sliko %{title}
         form:
           image: Slika
           use_current_image: Uporabi tretnutno sliko

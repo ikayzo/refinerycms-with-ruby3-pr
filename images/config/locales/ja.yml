@@ -7,7 +7,7 @@ ja:
     admin:
       images:
         delete: この画像を削除
-        edit: 画像を編集
+        edit: 画像を編集 %{title}
         form:
           image: 画像
           use_current_image: この画像を使用する

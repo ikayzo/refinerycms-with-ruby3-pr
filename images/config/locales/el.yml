@@ -7,7 +7,7 @@ el:
     admin:
       images:
         delete: Διαγραφή εικόνας
-        edit: Επεξεργασία εικόνας
+        edit: Επεξεργασία εικόνας %{title}
         form:
           image: Εικόνα
           use_current_image: Χρήση τρέχουσας εικόνας

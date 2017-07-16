@@ -7,7 +7,7 @@ zh-CN:
     admin:
       images:
         delete: 永久删除此图片
-        edit: 编辑此图片
+        edit: 编辑此图片 %{title}
         form:
           image: 图片
           use_current_image: 使用当前图片

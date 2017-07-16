@@ -7,7 +7,7 @@ hu:
     admin:
       images:
         delete: Kép végleges eltávolítása
-        edit: Kép szerkesztése
+        edit: Kép szerkesztése %{title}
         form:
           image: Kép
           use_current_image: Jelenlegi kép használata

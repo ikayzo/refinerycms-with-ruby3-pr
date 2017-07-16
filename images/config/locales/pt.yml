@@ -7,7 +7,7 @@ pt:
     admin:
       images:
         delete: "Apagar esta imagem definitivamente"
-        edit: "Editar esta imagem"
+        edit: "Editar esta imagem %{title}"
         form:
           image: "Imagem"
           use_current_image: "Usar imagem actual"

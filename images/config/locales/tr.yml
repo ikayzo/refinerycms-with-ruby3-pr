@@ -7,7 +7,7 @@ tr:
     admin:
       images:
         delete: Bu resim dosyasini sonsuza dek sil.
-        edit: Bu resmi duzenle
+        edit: Bu resmi duzenle %{title}
         form:
           image: Resim
           use_current_image: Varolan resmi kullan

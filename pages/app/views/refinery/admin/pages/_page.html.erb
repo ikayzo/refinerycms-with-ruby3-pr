@@ -7,7 +7,7 @@
             data: {confirm: t('message',  scope: 'refinery.admin.delete', title: translated_field(page, :title))}
           }
  %>
-Anita was here
+
   <li class='clearfix record items' id="<%= dom_id(page) -%>">
   <div class='clearfix'>
     <% if page.children.present? %>
@@ -19,7 +19,7 @@ Anita was here
     <% end %>
 
     <span class='title <%= 'toggle' if page.children.present? %>'>
-      <a href="<%= edit_url%>"><%= translated_field(page, :title) %></a>
+      <a href="<%= edit_url%>" title="<%=  t('edit', scope: 'refinery.admin.pages')%>"><%= translated_field(page, :title) %></a>
       <%= page_meta_information page %>
     </span>
 

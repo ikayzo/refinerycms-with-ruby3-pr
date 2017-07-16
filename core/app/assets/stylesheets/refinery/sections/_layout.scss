@@ -355,7 +355,7 @@ div.field.checkbox_access {
     font-weight: normal;
   }
 }
-#menu, {
+#menu {
   display: block;
   margin: 45px 0px 0px 0px;
   padding: 0px;
@@ -656,50 +656,30 @@ label.stripped {
 .record .title span {
   line-height: 30px;
 }
-
-#records.files .record .title, #dialog_main #resource_file_area .pages_list ul li a.page_link {
+#records.files .title{
   display:inline-block;
-  padding-left:24px;
-  min-height:16px;
-  background-repeat:no-repeat;
   background-position:left;
-  @include icon('file-o', blue)
 }
-#dialog_main #resource_file_area .pages_list ul li a.page_link{
+
+li a.page_link{
   background-position:5px center;
   display:block;
 }
-#records.files .record .title.pdf, #dialog_main #resource_file_area .pages_list ul li a.page_link.pdf {
-  @include icon('file-pdf-o')
-}
-#records.files .record .title.jpg,
-#records.files .record .title.gif,
-#records.files .record .title.jpeg,
-#records.files .record .title.png,
-#records.files .record .title.tiff,
-#dialog_main #resource_file_area .pages_list ul li a.page_link.jpg,
-#dialog_main #resource_file_area .pages_list ul li a.page_link.jpeg,
-#dialog_main #resource_file_area .pages_list ul li a.page_link.gif,
-#dialog_main #resource_file_area .pages_list ul li a.page_link.png,
-#dialog_main #resource_file_area .pages_list ul li a.page_link.tiff {
-  @include icon('file-image-o');
+
+#records.files .title, li a.page_link {
+  min-height:16px;
+  background-repeat:no-repeat;
+  @include icon('file-o', $icon_resource_colour);
+
+  &.pdf {@include icon('file-pdf-o', $pdf_colour);}
+  &.jpg, &.jpeg, &.gif, &.png, &.tiff {@include icon('file-image-o', $icon_resource_colour);}
+  &.doc, &.docx, &.pages {@include icon('file-word-o', $msword_colour);}
+  &.ppt, &.pptx, &.keynote { @include icon('file-powerpoint-o', $powerpoint_colour);}
+  &.xls, &.xlsx, &.numbers {@include icon('file-excel-o', $excel_colour);}
+  &.zip, &.rar {@include icon('file-zip-o', $icon_resource_colour);}
+  &.mp3, &.wav, &.aiff, &.m4a {@include icon('file-audio-o',$icon_resource_colour);}
 }
 
-#records.files .record .title.doc, #records.files .record .title.pages, #records.files .record .title.docx, #dialog_main #resource_file_area .pages_list ul li a.page_link.doc, #dialog_main #resource_file_area .pages_list ul li a.page_link.docx, #dialog_main #resource_file_area .pages_list ul li a.page_link.pages {
-  @include icon('file-word-o');
-}
-#records.files .record .title.ppt, #records.files .record .title.keynote, #dialog_main #resource_file_area .pages_list ul li a.page_link.ppt, #dialog_main #resource_file_area .pages_list ul li a.page_link.keynote {
-  @include icon('file-powerpoint-o');
-}
-#records.files .record .title.xls, #records.files .record .title.numbers, #dialog_main #resource_file_area .pages_list ul li a.page_link.xls, #dialog_main #resource_file_area .pages_list ul li a.page_link.numbers {
-  @include icon('file-excel-o');
-}
-#records.files .record .title.zip, #records.files .record .title.rar, #dialog_main #resource_file_area .pages_list ul li a.page_link.zip, #dialog_main #resource_file_area .pages_list ul li a.page_link.rar {
-  @include icon('file-zip-o');
-}
-#records.files .record .title.mp3, #records.files .record .title.wav, #records.files .record .title.aiff, #records.files .record .title.m4a, #dialog_main #resource_file_area .pages_list ul li a.page_link.mp3, #dialog_main #resource_file_area .pages_list ul li a.page_link.wav, #dialog_main #resource_file_area .pages_list ul li a.page_link.aiff, #dialog_main #resource_file_area .pages_list ul li a.page_link.m4a {
-  @include icon('file-audio-o');
-}
 #records .actions {
   position: absolute;
   right: 0px;
@@ -1040,7 +1020,7 @@ a img {
 
 /* page parts */
 
-ul#page_parts, 
+ul#page_parts,
 ul#page_parts_controls {
   margin: 0;
   padding: 0;
@@ -1173,6 +1153,12 @@ ul#image_grid li, .pagination_container > ul#image_grid li {
   text-align: center;
   overflow: hidden;
 }
+
+ul#image_grid  img {
+  border: 2px dotted $icon_edit_colour;
+  &:hover {border: 2px solid $icon_edit_colour};
+}
+
 ul#image_grid li.image_3 {
   margin-left: 0px;
   margin-right: 0px;

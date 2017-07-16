@@ -7,7 +7,7 @@ sv:
     admin:
       images:
         delete: Ta bort den här bilden för alltid
-        edit: Redigera den här bilden
+        edit: Redigera den här bilden %{title}
         form:
           image: Bild
           use_current_image: Använd denna bild

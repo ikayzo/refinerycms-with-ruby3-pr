@@ -7,7 +7,7 @@ zh-TW:
     admin:
       images:
         delete: 永遠地移除這張圖片
-        edit: 編輯圖片
+        edit: 編輯圖片 %{title}
         form:
           image: 圖片
           use_current_image: 使用目前圖片

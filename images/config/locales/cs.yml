@@ -7,7 +7,7 @@ cs:
     admin:
       images:
         delete: Smazat tento obrázek
-        edit: Upravit tento obrázek
+        edit: Upravit tento obrázek %{title}
         form:
           image: Obrázek
           use_current_image: Použít vybraný obrázek

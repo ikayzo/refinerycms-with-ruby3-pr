@@ -9,7 +9,7 @@ de:
         language: Sprache
       images:
         delete: Dieses Bild für immer löschen
-        edit: Dieses Bild bearbeiten
+        edit: Dieses Bild bearbeiten %{title}
         form:
           image: Bild
           use_current_image: Aktuelles Bild verwenden

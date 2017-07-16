@@ -7,7 +7,7 @@ rs:
     admin:
       images:
         delete: Ukloni ovu sliku zauvek
-        edit: Izmeni sliku
+        edit: Izmeni sliku %{title}
         form:
           image: Slika
           use_current_image: Koristi trenutnu sliku

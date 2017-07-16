@@ -7,7 +7,7 @@ fi:
     admin:
       images:
         delete: Poista tämä kuva ikuisesti
-        edit: Muokkaa tätä kuvaa
+        edit: Muokkaa tätä kuvaa %{title}
         form:
           image: Kuva
           use_current_image: Käytä nykyistä kuvaa

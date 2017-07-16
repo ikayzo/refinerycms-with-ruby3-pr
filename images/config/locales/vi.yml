@@ -7,7 +7,7 @@ vi:
     admin:
       images:
         delete: Xóa ảnh này vĩnh viễn
-        edit: Sửa ảnh này
+        edit: Sửa ảnh này %{title}
         form:
           image: Ảnh
           use_current_image: Dùng ảnh hiện tại

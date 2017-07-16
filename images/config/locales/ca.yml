@@ -8,7 +8,7 @@ ca:
     admin:
       images:
         delete: Esborrar aquesta imatge per sempre
-        edit: Editar aquesta imatge
+        edit: Editar imatge %{title}
         form:
           image: Imatge
           use_current_image: Usar imatge actual

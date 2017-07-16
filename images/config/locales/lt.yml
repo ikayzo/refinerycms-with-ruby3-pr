@@ -7,7 +7,7 @@ lt:
     admin:
       images:
         delete: Pašalinti paveikslėlį visam laikui
-        edit: Redaguoti paveikslėlį
+        edit: Redaguoti paveikslėlį %{title}
         form:
           image: Paveikslėlis
           use_current_image: Naudoti pasirinktą paveikslėlį

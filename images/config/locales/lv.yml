@@ -8,7 +8,7 @@ lv:
     admin:
       images:
         delete: Dzēst šo bildi
-        edit: Labot šo bildi
+        edit: Labot šo bildi %{title}
         form:
           use_current_image: Lietot pašreizējo bildi
           or: vai

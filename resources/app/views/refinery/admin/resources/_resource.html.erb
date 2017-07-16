@@ -4,10 +4,11 @@
   delete_options = {data: {confirm: t('message',  scope: 'refinery.admin.delete', title: resource.title)}}
 %>
 <li class="clearfix record <%= cycle('on', 'on-hover') %>">
-
-  <span class="title <%= resource.ext.try(:downcase) %>">
-    <%= translated_field(resource, :title) %>
-  </span>
+  <a href="<%=edit_url %>" title="<%=  t('edit', scope: 'refinery.admin.resources') %>">
+    <span class="title <%= resource.ext.try(:downcase) %>">
+      <%= translated_field(resource, :title) %>
+    </span>
+  </a>
 
   <% if Refinery::I18n.frontend_locales.many? %>
     <span class='locales'>

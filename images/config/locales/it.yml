@@ -7,7 +7,7 @@ it:
     admin:
       images:
         delete: "Elimina l'immagine corrente"
-        edit: "Modifica l'immagine corrente"
+        edit: "Modifica l'immagine %{title}"
         form:
           image: Immagine
           use_current_image: "Usa l'immagine corrente"

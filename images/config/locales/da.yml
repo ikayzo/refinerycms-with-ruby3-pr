@@ -7,7 +7,7 @@ da:
     admin:
       images:
         delete: Slet billedet
-        edit: Redigér billede
+        edit: Redigér billede %{title}
         form:
           image: Billede
           image_title: Titel

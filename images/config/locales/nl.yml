@@ -9,7 +9,7 @@ nl:
         language: Taal
       images:
         delete: Deze afbeelding definitief verwijderen
-        edit: Deze afbeelding bewerken
+        edit: Deze afbeelding bewerken %{title}
         form:
           image: Afbeelding
           use_current_image: Huidige afbeelding gebruiken

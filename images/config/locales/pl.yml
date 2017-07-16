@@ -8,7 +8,7 @@ pl:
     admin:
       images:
         delete: Na zawsze usuń ten obraz
-        edit: Zmień ten obraz
+        edit: Zmień ten obraz %{title}
         form:
           image: Obraz
           use_current_image: Użyj obecnego obrazu
