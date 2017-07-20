@@ -76,12 +76,21 @@ module Refinery
       context "edit/update" do
         let!(:resource) { FactoryGirl.create(:resource) }
 
+        it 'can be edited by clicking on the title field' do
+          visit refinery.admin_resources_path
+          expect(page).to have_selector("li.record > a[href='/refinery/resources/#{resource.id}/edit']")
+        end
+
+        it 'can be edited by clicking on the edit icon' do
+          visit refinery.admin_resources_path
+          within 'span.actions' do
+            expect(page).to have_selector("a[href='/refinery/resources/#{resource.id}/edit']")
+          end
+        end
+
         it "updates file" do
           visit refinery.admin_resources_path
-          expect(page).to have_content("Refinery Is Awesome")
-          expect(page).to have_selector("a[href='/refinery/resources/#{resource.id}/edit']")
-
-          click_link "Edit this file"
+          find("span.actions a[href='/refinery/resources/#{resource.id}/edit']").click
 
           expect(page).to have_content("Refinery Is Awesome or replace it with this one...")
           expect(page).to have_selector("a[href*='/refinery/resources']")
@@ -101,9 +110,8 @@ module Refinery
           it "can have a second locale added to it" do
             visit refinery.admin_resources_path
             expect(page).to have_content("Refinery Is Awesome")
-            expect(page).to have_selector("a[href='/refinery/resources/#{resource.id}/edit']")
 
-            click_link "Edit this file"
+            find("a[href='/refinery/resources/#{resource.id}/edit']", match: :first).click
 
             within "#switch_locale_picker" do
               click_link "FR"
