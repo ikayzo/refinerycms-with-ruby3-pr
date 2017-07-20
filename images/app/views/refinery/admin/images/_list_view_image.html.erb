@@ -1,7 +1,7 @@
 <li id="sortable_<%= list_view_image.id %>" class="clearfix record <%= cycle('on', 'on-hover') %>">
   <span class="title">
     <a href="<%= refinery.edit_admin_image_path(list_view_image) %>"
-       title="<%= t('edit', scope: 'refinery.admin.images', title: translated_field(list_view_image, :title) ) %>">
+       title="<%= translated_field(list_view_image, :title) %>">
       <%= translated_field(list_view_image, :title) %>
     </a>
   </span>

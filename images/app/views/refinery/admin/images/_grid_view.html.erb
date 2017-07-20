@@ -1,10 +1,11 @@
 <ul id="image_grid" class="<%= ['clearfix', 'pagination_frame', 'images_list', pagination_css_class].compact.join(' ') %>">
   <% @images.each_with_index do |image, index| -%>
     <li id="image_<%= image.id %>" class="image_<%= index % 4 %>">
-      <a href="<%= refinery.edit_admin_image_path(image) %>"
-         title="<%= t('edit', scope: 'refinery.admin.images', title: translated_field(image, :title))%>" >
-        <%= image_fu image, '149x149#c', title: translated_field(image, :title) %>
-      </a>
+     <span class="image">
+       <a href="<%= refinery.edit_admin_image_path(image) %>">
+         <%= image_fu image, '149x149#c', title: translated_field(image, :title) %>
+        </a>
+     </span>
       <span class="actions">
 
        <%= action_icon :preview, image.url, t('view_live_html', scope: 'refinery.admin.images') %>

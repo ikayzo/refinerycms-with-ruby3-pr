@@ -1,11 +1,11 @@
 require "spec_helper"
 
 module Refinery
-  describe "the Admin Images Tab", type: :feature do
+  describe "Using Admin Images Tab > ", type: :feature do
     refinery_login
     include_context 'admin images tab'
 
-    context 'When there are no images' do
+    context 'When there are no images >' do
       include_context 'no existing images'
 
       it 'says there are no images' do
@@ -16,11 +16,11 @@ module Refinery
       it_has_behaviour 'uploads images'
     end
 
-    context 'When there is one image' do
+
+    context 'When there is one image ' do
       include_context 'one image'
 
       it_has_behaviour 'indexes images'
-      it_has_behaviour 'shows list and grid views'
       it_has_behaviour 'shows an image preview'
       it_has_behaviour 'deletes an image'
       it_has_behaviour 'edits an image'
@@ -32,7 +32,6 @@ module Refinery
       include_context 'many images'
 
       it_has_behaviour 'indexes images'
-      it_has_behaviour 'shows list and grid views'
       it_has_behaviour 'paginates the list of images'
       it_has_behaviour 'shows an image preview'
       it_has_behaviour 'deletes an image'
@@ -55,7 +54,7 @@ module Refinery
     context 'When there is one image' do
       include_context 'one image'
 
-      it_has_behaviour 'indexes images'
+      it_has_behaviour 'lists images'
       it_has_behaviour 'paginates the list of images'
       it_has_behaviour 'uploads images'
       it_has_behaviour 'inserts images'
@@ -64,7 +63,7 @@ module Refinery
     context 'When there are many images' do
       include_context 'many images'
 
-      it_has_behaviour 'indexes images'
+      it_has_behaviour 'lists images'
       it_has_behaviour 'paginates the list of images'
       it_has_behaviour 'uploads images'
       it_has_behaviour 'inserts images'

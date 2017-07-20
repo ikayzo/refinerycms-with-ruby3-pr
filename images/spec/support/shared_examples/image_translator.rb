@@ -13,14 +13,16 @@ shared_examples 'translates an image' do
       expect(page).to have_content("Beach")
       expect(page).to have_selector("a[href='/refinery/images/#{image.id}/edit']")
 
-      click_link "Edit this image"
+      within "span.actions" do
+        find("a[href='/refinery/images/#{image.id}/edit']").click
+      end
 
       within "#switch_locale_picker" do
         click_link "FR"
       end
 
-      fill_in "Title", :with => "Titre de la première image"
-      fill_in "Alt", :with => "Texte alternatif de la première image"
+      fill_in "Title", with: "Titre de la première image"
+      fill_in "Alt", with: "Texte alternatif de la première image"
 
       click_button "Save"
 
