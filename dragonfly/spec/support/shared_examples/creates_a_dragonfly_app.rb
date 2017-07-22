@@ -24,8 +24,6 @@ shared_examples_for 'Creates a dragonfly App:' do
     end
 
     it 'sets verify_urls' do
-      puts Dragonfly.app(described_class.dragonfly_name).server.verify_urls
-      puts described_class.dragonfly_verify_urls
       expect(Dragonfly.app(described_class.dragonfly_name).server.verify_urls).to eq(described_class.dragonfly_verify_urls)
     end
 
