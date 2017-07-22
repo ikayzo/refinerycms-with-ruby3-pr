@@ -205,7 +205,7 @@ module Refinery
 
         context 'when saving and returning to index' do
           it "updates page", js: true do
-            find("a[href$='#{updateable_page.slug}/edit']").trigger(:click)
+            find(".actions a.edit_icon[href$='#{updateable_page.slug}/edit']" ).trigger(:click)
 
             fill_in "Title", :with => "Updated"
             find("#submit_button").click
@@ -217,7 +217,7 @@ module Refinery
         context 'when saving and continuing to edit', js: true do
           before :each do
             expect(page).to have_selector("a[href$='#{updateable_page.slug}/edit']", visible: true)
-            find("a[href$='#{updateable_page.slug}/edit']").click
+            find("a.edit_icon[href$='#{updateable_page.slug}/edit']").click
 
             fill_in "Title", :with => "Updated you"
             find("#submit_continue_button").click
@@ -254,7 +254,7 @@ module Refinery
           it 'will show the preview changes in a new window' do
             visit refinery.admin_pages_path
 
-            find('a[tooltip^=Edit]').click
+            find('a.edit_icon[tooltip^=Edit]').click
             fill_in "Title", with: preview_content
             window = window_opened_by do
               click_button "Preview"
@@ -268,7 +268,7 @@ module Refinery
           it 'will not show the site bar' do
             visit refinery.admin_pages_path
 
-            find('a[tooltip^=Edit]').click
+            find('a.edit_icon[tooltip^=Edit]').click
             fill_in "Title", with: preview_content
             window = window_opened_by do
               click_button "Preview"
@@ -289,7 +289,7 @@ module Refinery
           it 'will not save the preview changes' do
             visit refinery.admin_pages_path
 
-            find('a[tooltip^=Edit]').click
+            find('a.edit_icon[tooltip^=Edit]').click
             fill_in "Title", with: preview_content
             window = window_opened_by do
               click_button "Preview"
@@ -309,7 +309,7 @@ module Refinery
           it 'will show the preview in a new window after save-and-continue' do
             visit refinery.admin_pages_path
 
-            find('a[tooltip^=Edit]').click
+            find('a.edit_icon[tooltip^=Edit]').click
             fill_in "Title", :with => "Save this"
             click_button "Save & continue editing"
             expect(page).to have_content("'Save this' was successfully updated")
@@ -330,7 +330,7 @@ module Refinery
           it 'will show pages with inherited templates', js:true do
             visit refinery.admin_pages_path
 
-            find('a[tooltip^=Edit]').click
+            find('a.edit_icon[tooltip^=Edit]').click
             fill_in 'Title', :with => 'Searchable'
             find('#toggle_advanced_options').trigger(:click)
             select 'Searchable', :from => 'View template'
@@ -367,7 +367,7 @@ module Refinery
             visit refinery.admin_pages_path
 
             within "#page_#{nested_page.id}" do
-              find('a[tooltip^=Edit]').click
+              find('a.edit_icon[tooltip^=Edit]').click
             end
 
             fill_in "Title", with: preview_content
@@ -462,7 +462,7 @@ module Refinery
             p = ::Refinery::Page.by_slug('news').first
             within "#page_#{p.id}" do
               expect(page).to have_content('News')
-              expect(page.find('a[tooltip="Edit this page"]')[:href]).to include('news')
+              expect(page.find('a.edit_icon[tooltip="Edit this page"]')[:href]).to include('news')
             end
           end
 
@@ -550,7 +550,7 @@ module Refinery
             visit refinery.admin_pages_path
 
             within "#page_#{news_page.id}" do
-              expect(page.find('a[tooltip="Edit this page"]')[:href]).to include(en_page_slug)
+              expect(page.find('span.actions a[tooltip="Edit this page"]')[:href]).to include(en_page_slug)
             end
           end
 
@@ -618,7 +618,7 @@ module Refinery
 
           it "uses slug in admin" do
             within "#page_#{ru_page_id}" do
-              expect(page.find('a[tooltip="Edit this page"]')[:href]).to include(ru_page_slug_encoded)
+              expect(page.find('a.edit_icon')[:href]).to include(ru_page_slug_encoded)
             end
           end
 
@@ -772,7 +772,7 @@ module Refinery
 
         specify "should retain the html", js:true do
           visit refinery.admin_pages_path
-          find('a[tooltip="Edit this page"]').trigger(:click)
+          find('a.edit_icon[tooltip="Edit this page"]').trigger(:click)
           Capybara.ignore_hidden_elements = false
           expect(page).to have_content("header class='regression'")
           Capybara.ignore_hidden_elements = true

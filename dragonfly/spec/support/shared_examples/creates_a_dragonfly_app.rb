@@ -2,12 +2,14 @@ shared_examples_for 'Creates a dragonfly App:' do
 
   describe 'app creation' do
     ::Refinery::Dragonfly.configure!(described_class)
-    it 'exists' do
+    it 'succeeds' do
       expect(::Dragonfly.app(described_class.dragonfly_name).name).to eq(described_class.dragonfly_name.to_sym)
     end
   end
 
   describe 'app configuration' do
+    ::Refinery::Dragonfly.configure!(described_class)
+
     # These are just some of the configuration parameters which can be passed to Dragonfly
     it 'sets the datastore_root_path' do
       expect(Dragonfly.app(described_class.dragonfly_name).datastore.root_path).to eq(described_class.dragonfly_datastore_root_path)
@@ -22,6 +24,8 @@ shared_examples_for 'Creates a dragonfly App:' do
     end
 
     it 'sets verify_urls' do
+      puts Dragonfly.app(described_class.dragonfly_name).server.verify_urls
+      puts described_class.dragonfly_verify_urls
       expect(Dragonfly.app(described_class.dragonfly_name).server.verify_urls).to eq(described_class.dragonfly_verify_urls)
     end
 
