@@ -9,47 +9,75 @@ shared_examples_for 'indexes images' do
   end
 
 
-  context 'in grid view' do
+  context 'when in grid view >' do
     include_context 'grid_view'
     before do
       ensure_on(current_path+'?view=grid')
     end
 
+    it 'shows each item inside a link' do
+      expect(page).to have_selector(link_selector, count: image_count)
+    end
+
     it 'shows image thumbnails' do
-      expect(page).to have_selector(index_item_selector, count: image_count)
+      expect(page).to have_selector(thumbnail_selector, count: image_count)
     end
 
     it 'shows the title of each image', js: true do
       # on hover via tooltip
-      expect(page).to have_selector(index_item_selector << title_selector, count: image_count)
+      expect(page).to have_selector(title_selector, count: image_count)
     end
 
-    it 'gives image an alt attribute', js: true do
-      expect(page).to have_selector(index_item_selector << alt_selector, count: image_count)
+
+    it 'shows the image alt attribute', js: true do
+      expect(page).to have_selector(alt_selector, count: image_count)
     end
-    it 'has an option to switch to the other view' do
+
+    describe 'it shows action icons for each image' do
+
+      %w(info edit preview delete).each do |icon|
+        it "shows an icon for #{icon}" do
+          expect(page).to have_selector(icon_group_selector << " a.#{icon}_icon", count: image_count)
+        end
+      end
+    end
+
+    it 'has an option to switch to list view' do
       expect(page).to have_content(::I18n.t('switch_to', view_name: 'list', scope: 'refinery.admin.images.index.view'))
     end
 
   end
 
-  context 'in list view' do
+  context 'when in list view >' do
     include_context 'list_view'
     before do
       ensure_on(current_path+'?view=list')
     end
 
-    it 'shows image titles' do
-      expect(page).to have_selector(index_item_selector, count: image_count)
+    it 'shows each item inside a link' do
+      expect(page).to have_selector(link_selector, count: image_count)
     end
 
-    it 'has an option to switch to the other view' do
+    it 'shows the image title' do
+      expect(page).to have_selector(item_selector, count: image_count)
+    end
+
+    it 'shows the image filename' do
+      expect(page).to have_selector(preview_selector, count: image_count)
+    end
+
+    describe 'it shows action icons for each image' do
+      %w(edit preview delete).each do |icon|
+        it "shows an icon for #{icon}" do
+          expect(page).to have_selector(icon_group_selector << " a.#{icon}_icon", count: image_count)
+        end
+      end
+    end
+
+
+    it 'has an option to switch to grid view' do
       expect(page).to have_content(::I18n.t('.switch_to', view_name: 'grid', scope: 'refinery.admin.images.index.view'))
     end
-  end
-
-  context 'in iframe view' do
-
   end
 
 end # image index
