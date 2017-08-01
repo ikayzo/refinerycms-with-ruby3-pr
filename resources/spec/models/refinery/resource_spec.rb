@@ -11,27 +11,23 @@ module Refinery
       end
     end
 
-    context "resource url" do
-      it "should respond to .url" do
+    describe "resource url" do
+      it "responds to .url" do
         expect(resource).to respond_to(:url)
       end
 
-      it "should not support thumbnailing like images do" do
+      it "does not support thumbnailing" do
         expect(resource).not_to respond_to(:thumbnail)
       end
 
-      it "should contain its filename at the end" do
-        expect(resource.url.split('/').last).to match(/\A#{resource.file_name}/)
+      it "contains its filename" do
+        expect(resource.url.split('/').last).to match(/#{resource.file_name}/)
       end
 
       context "when Dragonfly.verify_urls is true" do
         before do
           allow(Refinery::Resources).to receive(:dragonfly_verify_urls).and_return(true)
           ::Refinery::Dragonfly.configure!(Refinery::Resources)
-        end
-
-        it "returns a url with an SHA parameter" do
-          expect(resource.url).to match(/\?sha=[\da-fA-F]{16}\z/)
         end
       end
 

@@ -12,6 +12,9 @@ module Refinery
     self.pages_per_admin_index = 20
 
     self.dragonfly_name = :refinery_resources
+    self.dragonfly_datastore_root_path = 'public/system/refinery/resources/'
+    # self.dragonfly_url_segment = 'resources'
+    # self.dragonfly__url_format = 'a/b/c/resources'
 
   end
 end

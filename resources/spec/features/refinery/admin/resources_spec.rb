@@ -1,26 +1,32 @@
 # Encoding: UTF-8
-require "spec_helper"
+require 'spec_helper'
+
+def download_first_file_at(path)
+  visit path
+  find('.download_icon').click
+  expect(page).to have_content('http://www.refineryhq.com/')
+end
 
 module Refinery
   module Admin
-    describe "Resources", :type => :feature do
+
+    describe 'Resources', :type => :feature do
       refinery_login
 
-      context "when no files" do
-        it "invites to upload file" do
+      context 'when there are no files' do
+        it 'says there are no files' do
           visit refinery.admin_resources_path
-          expect(page).to have_content(%q{There are no files yet. Click "Upload new file" to add your first file.})
+          expect(page).to have_content(%q{There are no files yet.})
         end
       end
 
-      it "shows upload file link" do
+      it 'shows upload file link' do
         visit refinery.admin_resources_path
-        expect(page).to have_content("Upload new file")
-        expect(page).to have_selector("a[href*='/refinery/resources/new']")
+        expect(page).to have_link('Upload new file', href:'/refinery/resources/new?dialog=true')
       end
 
-      context "new/create" do
-        it "uploads file", :js => true do
+      describe 'new/create' do
+        it "uploads a file", :js => true do
           visit refinery.admin_resources_path
           find('a', text: 'Upload new file').trigger(:click)
 
@@ -31,7 +37,6 @@ module Refinery
                                                   join("spec/fixtures/refinery_is_awesome.txt")
             click_button ::I18n.t('save', :scope => 'refinery.admin.form_actions')
           end
-
           expect(page).to have_content("Refinery Is Awesome")
           expect(Refinery::Resource.count).to eq(1)
         end
@@ -126,13 +131,13 @@ module Refinery
         end
       end
 
-      context "destroy" do
+      describe "destroy" do
         let!(:resource) { FactoryGirl.create(:resource) }
 
-        it "removes file" do
+        it "removes the resource" do
           visit refinery.admin_resources_path
-          expect(page).to have_selector("a[href='/refinery/resources/#{resource.id}']")
 
+          expect(page).to have_selector("a[href='/refinery/resources/#{resource.id}']")
           click_link "Remove this file forever"
 
           expect(page).to have_content("'Refinery Is Awesome' was successfully removed.")
@@ -140,39 +145,30 @@ module Refinery
         end
       end
 
-      context "download" do
+      describe 'downloading' do
         let!(:resource) { FactoryGirl.create(:resource) }
 
-        it "succeeds" do
-          visit refinery.admin_resources_path
-
-          click_link "Download this file"
-
-          expect(page).to have_content("http://www.refineryhq.com/")
+        it 'downloads the selected file' do
+          download_first_file_at refinery.admin_resources_path
         end
 
         context 'when the extension is mounted with a named space' do
           before do
             Rails.application.routes.draw do
-              mount Refinery::Core::Engine, :at => "/about"
+              mount Refinery::Core::Engine, :at => '/about'
             end
             Rails.application.routes_reloader.reload!
           end
 
           after do
             Rails.application.routes.draw do
-              mount Refinery::Core::Engine, :at => "/"
+              mount Refinery::Core::Engine, :at => '/'
             end
           end
 
-          it "succeeds" do
-            visit refinery.admin_resources_path
-
-            click_link "Download this file"
-
-            expect(page).to have_content("http://www.refineryhq.com/")
+          it 'downloads the selected file' do
+            download_first_file_at refinery.admin_resources_path
           end
-
         end
       end
     end

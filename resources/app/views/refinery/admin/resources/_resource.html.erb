@@ -1,6 +1,7 @@
 <%
   edit_url =    refinery.edit_admin_resource_path(resource)
   delete_url =  refinery.admin_resource_path(resource)
+  download_url = resource.url
   delete_options = {data: {confirm: t('message',  scope: 'refinery.admin.delete', title: resource.title)}}
 %>
 <li class="clearfix record <%= cycle('on', 'on-hover') %>">
@@ -31,7 +32,7 @@
   </span>
 
   <span class="actions">
-    <%= action_icon :download,  resource.url, t('.download', size: number_to_human_size(resource.size)) %>
+    <%= action_icon :download,  download_url, t('.download', size: number_to_human_size(resource.size)) %>
     <%= action_icon :edit,      edit_url,     t('edit', scope: 'refinery.admin.resources') %>
     <%= action_icon :delete,    delete_url,   t('delete', scope: 'refinery.admin.resources'), delete_options %>
   </span>
