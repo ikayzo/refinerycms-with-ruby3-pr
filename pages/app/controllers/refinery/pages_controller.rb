@@ -13,7 +13,6 @@ module Refinery
       if page.link_url.present? && page.link_url != "/"
         redirect_to page.link_url, status: 301 and return
       end
-
       render_with_templates?
     end
 
