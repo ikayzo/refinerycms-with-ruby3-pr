@@ -393,8 +393,9 @@ module Refinery
         end
       end
 
+      # Put destination lines first, so that extension namespaced routes precede the default extension route
       def merge_rb
-        (source_lines[0..-2] + destination_lines[1..-2] + [source_lines.last]).join "\n"
+        (destination_lines[0..-2] + source_lines[1..-2] + [destination_lines.last]).join "\n"
       end
 
       def merge_yaml
