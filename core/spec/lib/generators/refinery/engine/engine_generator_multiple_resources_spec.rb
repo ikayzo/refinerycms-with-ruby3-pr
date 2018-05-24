@@ -7,7 +7,7 @@ module Refinery
   describe EngineGenerator do
     include GeneratorSpec::TestCase
     destination File.expand_path("../../../../../../tmp", __FILE__)
-    extension_root = "#{destination_root}/vendor/extensions/rspec_product_tests"
+    let(:extension_root){"#{destination_root}/vendor/extensions/rspec_product_tests"}
 
     before do
       prepare_destination
@@ -21,7 +21,7 @@ module Refinery
     context "when generating a resource without passing a namespace" do
       before do
         run_generator %w{ rspec_item_test title:string --extension rspec_product_tests --skip }
-      end
+       end
 
       it "uses the extension name for the namespace" do
         expect(destination_root).to have_structure {
