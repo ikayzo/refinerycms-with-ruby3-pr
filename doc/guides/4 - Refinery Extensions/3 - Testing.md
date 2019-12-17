@@ -29,8 +29,8 @@ Now we will configure our test environment by preparing a dummy refinerycms app
 Add the following lines to your extension's Rakefile
 
 ```ruby
-ENGINE_PATH = File.dirname(*FILE*)
-APP_RAKEFILE = File.expand_path("../spec/dummy/Rakefile", *FILE*)
+ENGINE_PATH = File.dirname(__FILE__)
+APP_RAKEFILE = File.expand_path("../spec/dummy/Rakefile", __FILE__)
 
 load 'rails/tasks/extension.rake' if File.exists?(APP_RAKEFILE)
 
