@@ -9,35 +9,36 @@ path "./" do
   gem "refinerycms-resources"
 end
 
-gem 'refinerycms-i18n', github: 'refinery/refinerycms-i18n', branch: 'master'
+gem 'bootsnap', require: false
+gem 'listen'
+
+gem 'activejob'
 
 gem 'activejob'
 
 # Add support for refinerycms-acts-as-indexed
-gem 'refinerycms-acts-as-indexed', ['~> 4.0', '>= 4.0.0'],
-  git: 'https://github.com/refinery/refinerycms-acts-as-indexed',
-  branch: 'master'
+gem 'refinerycms-acts-as-indexed', ['~> 3.0', '>= 3.0.0'], require: 'refinery/acts_as_indexed'
 
 # Add the default visual editor, for now.
-gem 'refinerycms-wymeditor', ['~> 3.0', '>= 3.0.0']
+gem 'refinerycms-wymeditor', ['~> 2.2', '>= 2.2.0'], require: 'refinery/wymeditor'
 
 # Database Configuration
-unless ENV['CI']
+unless ENV['TRAVIS']
   gem 'activerecord-jdbcsqlite3-adapter', '>= 1.3.0.rc1', platform: :jruby
   gem 'sqlite3', platform: :ruby
 end
 
-if !ENV['CI'] || ENV['DB'] == 'mysql'
+if !ENV['TRAVIS'] || ENV['DB'] == 'mysql'
   group :mysql do
     gem 'activerecord-jdbcmysql-adapter', '>= 1.3.0.rc1', platform: :jruby
     gem 'mysql2', '~> 0.4', :platform => :ruby
   end
 end
 
-if !ENV['CI'] || ENV['DB'] == 'postgresql'
+if !ENV['TRAVIS'] || ENV['DB'] == 'postgresql'
   group :postgres, :postgresql do
     gem 'activerecord-jdbcpostgresql-adapter', '>= 1.3.0.rc1', platform: :jruby
-    gem 'pg', '~> 1.1', platform: :ruby
+    gem 'pg', '~> 0.21', platform: :ruby
   end
 end
 
@@ -53,8 +54,7 @@ group :test do
   gem 'launchy'
   gem 'coveralls', require: false
   gem 'rspec-retry'
-  gem 'falcon'
-  gem 'falcon-capybara'
+  gem 'puma'
 
   # TODO: Use beta source for Rails 6 support
   gem 'rspec-rails', '~> 4.0.0.beta3'
