@@ -9,17 +9,23 @@ path "./" do
   gem "refinerycms-resources"
 end
 
+gem 'refinerycms-i18n', git: 'https://github.com/refinery/refinerycms-i18n',
+                        branch: 'zeitwerk'
+
 gem 'bootsnap', require: false
 gem 'listen'
 
 gem 'activejob'
+
 
 gem 'refinerycms-acts-as-indexed', ['~> 4.0', '>= 4.0.0'],
   git: 'https://github.com/refinery/refinerycms-acts-as-indexed',
   branch: 'master'
 
 # Add the default visual editor, for now.
-gem 'refinerycms-wymeditor', ['~> 2.2', '>= 2.2.0'], require: 'refinery/wymeditor'
+gem 'refinerycms-wymeditor', ['~> 2.2', '>= 2.2.0'],
+  git: 'https://github.com/parndt/refinerycms-wymeditor',
+  branch: 'zeitwerk'
 
 # Database Configuration
 unless ENV['TRAVIS']
@@ -53,7 +59,8 @@ group :test do
   gem 'launchy'
   gem 'coveralls', require: false
   gem 'rspec-retry'
-  gem 'puma'
+  gem 'falcon'
+  gem 'falcon-capybara'
 
   # TODO: Use beta source for Rails 6 support
   gem 'rspec-rails', '~> 4.0.0.beta3'
