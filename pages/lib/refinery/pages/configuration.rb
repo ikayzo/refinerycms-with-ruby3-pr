@@ -10,7 +10,7 @@ module Refinery
                     :auto_expand_admin_tree, :show_title_in_body,
                     :friendly_id_reserved_words, :reserved_paths, :layout_templates_pattern, :view_templates_pattern,
                     :add_whitelist_elements, :add_whitelist_attributes, :whitelist_elements, :whitelist_attributes,
-                    :home_page_path
+                    :home_page_path, :sanitized_content_warning
 
     self.pages_per_dialog = 14
     self.pages_per_admin_index = 20
@@ -27,6 +27,7 @@ module Refinery
     # Note: "data-" attributes are whitelisted by default. See https://github.com/refinery/refinerycms/pull/3187
     self.add_whitelist_attributes = %w[ kind srclang placeholder controls required ]
     self.home_page_path = "/"
+    self.sanitized_content_warning = true
 
 
     class << self

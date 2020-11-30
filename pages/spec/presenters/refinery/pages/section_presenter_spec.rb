@@ -117,13 +117,25 @@ module Refinery
             %Q{\n-- SANITIZED CONTENT WARNING --\nRefinery::Pages::SectionPresenter#wrap_content_in_tag\nHTML attributes and/or elements content has been sanitized\n\e[31m-<dummy></dummy>\e[0m\n\\ No newline at end of file\n\n}
           end
 
-          it "shows a sanitized content warning" do
-            expect(Rails.logger).to receive(:warn).with(warning)
-            section = SectionPresenter.new
-            section.override_html = %Q{<dummy></dummy>}
-            section.wrapped_html(true)
+          context 'when Refinery::Pages.sanitization_warning is true' do
+            it "shows a sanitized content warning" do
+              allow(Refinery::Pages).to receive(:sanitized_content_warning) {true}
+              expect(Rails.logger).to receive(:warn).with(warning)
+              section = SectionPresenter.new
+              section.override_html = %Q{<dummy></dummy>}
+              section.wrapped_html(true)
+            end
           end
 
+          context 'when Refinery::Pages.sanitization_warning is false' do
+            it "does not show a sanitized content warning" do
+              allow(Refinery::Pages).to receive(:sanitized_content_warning) {false}
+              expect(Rails.logger).not_to receive(:warn).with(warning)
+              section = SectionPresenter.new
+              section.override_html = %Q{<dummy></dummy>}
+              section.wrapped_html(true)
+            end
+          end
           it "accepts a custom logger" do
             logger = spy(:logger, warn: true)
             SectionPresenter.new(logger: logger).tap do |presenter|
