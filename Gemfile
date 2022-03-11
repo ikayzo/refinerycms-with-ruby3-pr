@@ -9,7 +9,7 @@ path "./" do
   gem "refinerycms-resources"
 end
 
-gem 'refinerycms-i18n', github: 'refinery/refinerycms-i18n', branch: 'zeitwerk'
+gem 'refinerycms-i18n', github: 'refinery/refinerycms-i18n', branch: 'master'
 
 gem 'activejob'
 
